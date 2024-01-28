@@ -5,24 +5,26 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import routes from './app/routes';
 
 import cookieParser from 'cookie-parser';
+import { baseUrl } from './utils/getBaseUrl';
 
 const app: Application = express();
 
 // cors bolck handle
 // app.use(cors({ origin: 'livelink here', credentials: true }));
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+// app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: baseUrl(), credentials: true }));
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  // res.setHeader(
-  //   'Access-Control-Allow-Origin',
-  //   'livelink here'
-  // );
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  next();
-});
+// app.use((req, res, next) => {
+//   // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+//   res.setHeader(
+//     'Access-Control-Allow-Origin',
+//     'https://trust-bank-backend.vercel.app/'
+//   );
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//   res.setHeader('Access-Control-Allow-Credentials', 'true');
+//   next();
+// });
 
 app.use(cookieParser());
 

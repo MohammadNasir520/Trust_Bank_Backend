@@ -18,8 +18,6 @@ const getAllFromDB = async (): Promise<Partial<User>[]> => {
       name: true,
       email: true,
       role: true,
-      contactNo: true,
-      profileImg: true,
     },
   });
   return result;
@@ -35,9 +33,6 @@ const getByIdFromDB = async (id: string): Promise<Partial<User | null>> => {
       name: true,
       email: true,
       role: true,
-      contactNo: true,
-
-      profileImg: true,
     },
   });
   return result;
@@ -57,9 +52,6 @@ const updateIntoDB = async (
       name: true,
       email: true,
       role: true,
-      contactNo: true,
-
-      profileImg: true,
     },
   });
   return result;

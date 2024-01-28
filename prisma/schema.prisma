@@ -11,15 +11,13 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
-  name       String
-  email      String   @unique
-  password   String
-  role       UserRole @default(student)
-  contactNo  String
-  profileImg String
-
-  createdAt DateTime @default(now())
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  password  String
+  role      UserRole  @default(client)
+  createdAt DateTime  @default(now())
+  accounts  Account[]
 
   @@map("users")
 }
@@ -27,6 +25,18 @@ model User {
 enum UserRole {
   super_admin
   admin
-  student
-  teacher
+  client
+}
+
+model Account {
+  accountId    String @unique
+  contactNo    String
+  profession   String
+  age          Int
+  education    String
+  profileImage String
+  accountType  String
+  citizenShip  String
+  userId       String
+  user         User   @relation(fields: [userId], references: [id])
 }

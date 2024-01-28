@@ -21,4 +21,5 @@ export default {
   },
   Email: process.env.Email,
   GmailAppPassword: process.env.GmailAppPassword,
+  base_url: process.env.base_url,
 };
