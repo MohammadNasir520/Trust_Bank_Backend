@@ -58,3 +58,39 @@ model Accounts {
 
   @@map("accounts")
 }
+
+// {
+//   id: 1,
+//   title: "Debit Card",
+//   description: "Debit Card",
+//   category: "Credit Card",
+//   image: "/assets/images/debit-card.png",
+//   cardImg: "/assets/images/debit-card.png",
+//   benefits: ["Get 10% cashback", "Welcome offer", "Get premium discount"],
+//   condition:[{
+//     age: 10,
+//     limit: 5000,
+//     offer: 10,        
+
+//   }]
+// },
+model DebitCreditCard {
+  id          String   @unique @default(uuid())
+  title       String
+  description String
+  category    String
+  image       String
+  cardImg     String
+  benefits    String[]
+
+  debitCreditCardConditions DebitCreditCardCondition[]
+}
+
+model DebitCreditCardCondition {
+  id                String          @unique @default(uuid())
+  age               Int
+  limit             Int
+  offer             Int
+  DebitCreditCardId String
+  DebitCreditCard   DebitCreditCard @relation(fields: [DebitCreditCardId], references: [id])
+}
