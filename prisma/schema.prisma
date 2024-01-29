@@ -11,13 +11,14 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid())
+  id        String     @id @default(uuid())
   name      String
-  email     String    @unique
+  email     String     @unique
   password  String
-  role      UserRole  @default(client)
-  createdAt DateTime  @default(now())
-  accounts  Account[]
+  role      UserRole   @default(client)
+  createdAt DateTime   @default(now())
+  // accounts  Account[]
+  accounts  Accounts[]
 
   @@map("users")
 }
@@ -28,7 +29,22 @@ enum UserRole {
   client
 }
 
-model Account {
+// model Account {
+//   id           String @default(uuid())
+//   accountId    String @unique
+//   contactNo    String
+//   profession   String
+//   age          Int
+//   education    String
+//   profileImage String
+//   accountType  String
+//   citizenShip  String
+//   userId       String
+//   user         User   @relation(fields: [userId], references: [id])
+// }
+
+model Accounts {
+  id           String @default(uuid())
   accountId    String @unique
   contactNo    String
   profession   String
@@ -39,4 +55,6 @@ model Account {
   citizenShip  String
   userId       String
   user         User   @relation(fields: [userId], references: [id])
+
+  @@map("accounts")
 }
