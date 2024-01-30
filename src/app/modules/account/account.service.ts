@@ -1,9 +1,15 @@
 import { Accounts } from '@prisma/client';
 
+import { JwtPayload } from 'jsonwebtoken';
 import prisma from '../../../shared/prisma';
 
-const insertIntoDB = async (data: Accounts): Promise<Accounts> => {
+const insertIntoDB = async (
+  data: Accounts,
+  authUser: JwtPayload
+): Promise<Accounts> => {
+  data.userId = authUser.userId;
   console.log(data);
+
   const result = await prisma.accounts.create({
     data,
   });

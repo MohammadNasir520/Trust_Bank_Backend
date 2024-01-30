@@ -2,7 +2,6 @@
 export enum ENUM_USER_ROLE {
   ADMIN = 'admin',
   SUPER_ADMIN = 'super_admin',
-  USER = 'user',
-  parents = 'parents',
-  tutor = 'tutor',
+  MANAGER = 'manager',
+  CLIENT = 'client',
 }
