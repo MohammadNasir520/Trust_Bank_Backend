@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendEMail = void 0;
 //  send mail function
 const nodemailer_1 = __importDefault(require("nodemailer"));
-const config_1 = __importDefault(require("../config"));
+const config_1 = __importDefault(require("../../config"));
 const sendEMail = async (fromEmail, toEmail, subject, html) => {
     const transporter = nodemailer_1.default.createTransport({
         host: 'smtp.gmail.com',

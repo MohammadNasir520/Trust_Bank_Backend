@@ -7,5 +7,5 @@ export const baseUrl = () => {
   if (config.env === 'production') {
     return config.base_url;
   }
-  return 'http://localhost:5000';
+  // return 'http://localhost:5000';
 };

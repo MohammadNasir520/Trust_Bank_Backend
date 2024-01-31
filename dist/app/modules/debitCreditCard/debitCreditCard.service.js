@@ -3,66 +3,45 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserService = void 0;
+exports.DebitCreditCardService = void 0;
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const insertIntoDB = async (data) => {
-    const result = await prisma_1.default.user.create({
+    console.log(data);
+    const result = await prisma_1.default.debitCreditCard.create({
         data,
     });
     return result;
 };
 const getAllFromDB = async () => {
-    const result = await prisma_1.default.user.findMany({
-        // where: {
-        //   role: 'tutor',
-        // },
-        select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
-        },
-    });
+    const result = await prisma_1.default.debitCreditCard.findMany({});
     return result;
 };
 const getByIdFromDB = async (id) => {
-    const result = await prisma_1.default.user.findUnique({
+    const result = await prisma_1.default.debitCreditCard.findUnique({
         where: {
-            id,
-        },
-        select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
+            id: id,
         },
     });
     return result;
 };
 const updateIntoDB = async (id, payload) => {
-    const result = await prisma_1.default.user.update({
+    const result = await prisma_1.default.debitCreditCard.update({
         where: {
             id: id,
         },
         data: payload,
-        select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
-        },
     });
     return result;
 };
 const deleteFromDB = async (id) => {
-    const result = await prisma_1.default.user.delete({
+    const result = await prisma_1.default.debitCreditCard.delete({
         where: {
             id: id,
         },
     });
     return result;
 };
-exports.UserService = {
+exports.DebitCreditCardService = {
     insertIntoDB,
     getAllFromDB,
     getByIdFromDB,

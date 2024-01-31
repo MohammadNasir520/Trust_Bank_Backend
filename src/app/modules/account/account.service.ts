@@ -36,7 +36,11 @@ const insertIntoDB = async (
 };
 
 const getAllFromDB = async (): Promise<Partial<Accounts>[]> => {
-  const result = await prisma.accounts.findMany({});
+  const result = await prisma.accounts.findMany({
+    include: {
+      user: true,
+    },
+  });
   return result;
 };
 

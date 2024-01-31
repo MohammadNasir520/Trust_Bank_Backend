@@ -42,9 +42,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1', routes);
 
-// console.log('new id', createNewIdNumber());
-// console.log('generatedId', generateNewId('S-00001'));
-
 //global error handler
 app.use(globalErrorHandler);
 

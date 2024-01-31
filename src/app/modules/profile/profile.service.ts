@@ -9,6 +9,9 @@ const getByIdFromDB = async (user: JwtPayload): Promise<Partial<User>> => {
     where: {
       id: user.userId,
     },
+    include: {
+      accounts: true,
+    },
   });
 
   if (!result) {
