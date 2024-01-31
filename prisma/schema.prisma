@@ -27,6 +27,7 @@ enum UserRole {
   super_admin
   admin
   client
+  manager
 }
 
 // model Account {
@@ -44,8 +45,8 @@ enum UserRole {
 // }
 
 model Accounts {
-  id           String @default(uuid())
-  accountId    String @unique
+  id           String   @unique @default(uuid())
+  accountId    String   @unique
   contactNo    String
   profession   String
   age          Int
@@ -54,7 +55,8 @@ model Accounts {
   accountType  String
   citizenShip  String
   userId       String
-  user         User   @relation(fields: [userId], references: [id])
+  user         User     @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now())
 
   @@map("accounts")
 }

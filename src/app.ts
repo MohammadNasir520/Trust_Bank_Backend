@@ -5,6 +5,7 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import routes from './app/routes';
 
 import cookieParser from 'cookie-parser';
+import { findLastAccountId } from './app/modules/account/account.utils';
 import { baseUrl } from './utils/getBaseUrl';
 
 const app: Application = express();
@@ -34,12 +35,15 @@ app.set('view engine', 'ejs');
 app.get('/verifyEmailForm', async (req, res) => {
   res.render('hello');
 });
-
+findLastAccountId();
 //parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1', routes);
+
+// console.log('new id', createNewIdNumber());
+// console.log('generatedId', generateNewId('S-00001'));
 
 //global error handler
 app.use(globalErrorHandler);

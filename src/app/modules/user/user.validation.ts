@@ -5,7 +5,7 @@ const UserSignUpZodSchema = z.object({
     name: z.string({ required_error: 'name is required' }),
     email: z.string({ required_error: 'email is required' }),
     role: z
-      .enum(['client', 'super_admin', 'admin'], {
+      .enum(['client', 'super_admin', 'admin', 'manager'], {
         required_error:
           'role is required and must be  super_admin admin client',
       })

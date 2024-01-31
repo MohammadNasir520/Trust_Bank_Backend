@@ -18,14 +18,14 @@ router.get('/:id', AccountController.getByIdFromDB);
 
 router.patch(
   '/:id',
-  auth(ENUM_USER_ROLE.ADMIN),
+  auth(ENUM_USER_ROLE.CLIENT, ENUM_USER_ROLE.MANAGER),
   // validateRequest(AccountValidation.updateZodSchema),
   AccountController.updateIntoDB
 );
 
 router.delete(
   '/:id',
-  auth(ENUM_USER_ROLE.ADMIN),
+  // auth(ENUM_USER_ROLE.ADMIN),
   AccountController.deleteFromDB
 );
 export const AccountRoutes = router;
