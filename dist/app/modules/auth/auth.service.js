@@ -31,7 +31,7 @@ const loginUser = async (payload) => {
     }
     //create access token & refresh token
     const { id: userId, role } = isUserExist;
-    const accessToken = jwtHelpers_1.jwtHelpers.createToken({ userId, role }, config_1.default.jwt.secret, '365d');
+    const accessToken = jwtHelpers_1.jwtHelpers.createToken({ userId, role }, config_1.default.jwt.secret, '5d');
     const refreshToken = jwtHelpers_1.jwtHelpers.createToken({ userId, role }, config_1.default.jwt.refresh_secret, '365d');
     return {
         accessToken,

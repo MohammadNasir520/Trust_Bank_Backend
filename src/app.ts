@@ -1,19 +1,24 @@
-import cors from 'cors';
 import express, { Application, NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import routes from './app/routes';
 
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import { findLastAccountId } from './app/modules/account/account.utils';
-import { baseUrl } from './utils/getBaseUrl';
 
 const app: Application = express();
 
 // cors bolck handle
 // app.use(cors({ origin: 'livelink here', credentials: true }));
 // app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
-app.use(cors({ origin: baseUrl(), credentials: true }));
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'https://trust-banking.vercel.app/'],
+    credentials: true,
+  })
+);
+// app.use(cors({ origin: baseUrl(), credentials: true }));
 
 // app.use((req, res, next) => {
 //   // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');

@@ -23,6 +23,9 @@ const getByIdFromDB = async (user) => {
         where: {
             id: user.userId,
         },
+        include: {
+            accounts: true,
+        },
     });
     if (!result) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'your profile does not exist');

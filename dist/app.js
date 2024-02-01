@@ -3,19 +3,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
 const http_status_1 = __importDefault(require("http-status"));
 const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalErrorHandler"));
 const routes_1 = __importDefault(require("./app/routes"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const cors_1 = __importDefault(require("cors"));
 const account_utils_1 = require("./app/modules/account/account.utils");
-const getBaseUrl_1 = require("./utils/getBaseUrl");
 const app = (0, express_1.default)();
 // cors bolck handle
 // app.use(cors({ origin: 'livelink here', credentials: true }));
 // app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
-app.use((0, cors_1.default)({ origin: (0, getBaseUrl_1.baseUrl)(), credentials: true }));
+app.use((0, cors_1.default)({
+    origin: ['http://localhost:3000', 'https://trust-banking.vercel.app/'],
+    credentials: true,
+}));
+// app.use(cors({ origin: baseUrl(), credentials: true }));
 // app.use((req, res, next) => {
 //   // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 //   res.setHeader(

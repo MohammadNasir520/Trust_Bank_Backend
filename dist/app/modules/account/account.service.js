@@ -30,7 +30,11 @@ const insertIntoDB = async (data, authUser) => {
     return result;
 };
 const getAllFromDB = async () => {
-    const result = await prisma_1.default.accounts.findMany({});
+    const result = await prisma_1.default.accounts.findMany({
+        include: {
+            user: true,
+        },
+    });
     return result;
 };
 const getByIdFromDB = async (id) => {

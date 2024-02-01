@@ -7,8 +7,8 @@ export const findLastAccountId = async () => {
       createdAt: 'desc',
     },
   });
-  console.log(lastAccount[0].accountId);
-  return lastAccount[0].accountId;
+  console.log(lastAccount[0]?.accountId);
+  return lastAccount[0]?.accountId || 'M-00001';
 };
 
 export const createNewIdNumber = async (accountType: string) => {
