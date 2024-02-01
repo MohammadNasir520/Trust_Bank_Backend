@@ -11,14 +11,15 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(uuid())
-  name      String
-  email     String     @unique
-  password  String
-  role      UserRole   @default(client)
-  createdAt DateTime   @default(now())
+  id              String            @id @default(uuid())
+  name            String
+  email           String            @unique
+  password        String
+  role            UserRole          @default(client)
+  createdAt       DateTime          @default(now())
   // accounts  Account[]
-  accounts  Accounts[]
+  accounts        Accounts[]
+  agricultureLoan AgricultureLoan[]
 
   @@map("users")
 }
@@ -30,23 +31,10 @@ enum UserRole {
   manager
 }
 
-// model Account {
-//   id           String @default(uuid())
-//   accountId    String @unique
-//   contactNo    String
-//   profession   String
-//   age          Int
-//   education    String
-//   profileImage String
-//   accountType  String
-//   citizenShip  String
-//   userId       String
-//   user         User   @relation(fields: [userId], references: [id])
-// }
-
 model Accounts {
   id           String   @unique @default(uuid())
   accountId    String   @unique
+  balance      Float    @default(0)
   contactNo    String
   profession   String
   age          Int
@@ -95,4 +83,95 @@ model DebitCreditCardCondition {
   offer             Int
   DebitCreditCardId String
   DebitCreditCard   DebitCreditCard @relation(fields: [DebitCreditCardId], references: [id])
+}
+
+// loan 
+// Agriculture loan
+model AgricultureLoan {
+  id               String     @unique @default(uuid())
+  amount           Float
+  cropType         String
+  landSize         String
+  guarantorName    String
+  guarantorPhone   String
+  guarantorAddress String
+  userId           String
+  user             User       @relation(fields: [userId], references: [id])
+  status           loanStatus @default(pending)
+}
+
+enum loanStatus {
+  pending
+  accepted
+  rejected
+}
+
+// Personal loan
+model PersonalLoan {
+  id               String @unique @default(uuid())
+  loanName         String
+  amount           String
+  employment       String
+  income           String
+  guarantorName    String
+  guarantorPhone   String
+  guarantorAddress String
+}
+
+// Corporate Loan : 
+model CorporateLoan {
+  id String @unique @default(uuid())
+
+  loanName         String
+  amount           String
+  businessType     String
+  turnover         String
+  guarantorName    String
+  guarantorPhone   String
+  guarantorAddress String
+}
+
+// Education loan
+model EducationLoan {
+  id               String @unique @default(uuid())
+  loanName         String
+  amount           String
+  course           String
+  institution      String
+  guarantorName    String
+  guarantorPhone   String
+  guarantorAddress String
+}
+
+// {fullName: "asik",
+//     email: "as@gmail.com",
+//     country: "bangladesh",
+//     loanAmount: "25",
+//     employmentStatus: "employed",
+//     birthDate: " 01/01/1990",
+//     ssn: " 123-45-6789",
+//     address: " dhaka",
+//     number: " 1234567890",
+//     annualIncome: " 500000",
+//     nidNumber: " 1234567890",
+//     maritalStatus: " single",
+//     creditScore: " 500",
+// }
+
+model Card {
+  id               String @unique @default(uuid())
+  name             String
+  email            String
+  country          String
+  loanAmount       String
+  employmentStatus String
+
+  birthDate     String
+  ssn           String
+  address       String
+  number        String
+  annualIncome  String
+  nidNumber     String
+  maritalStatus String
+  creditScore   String
 }

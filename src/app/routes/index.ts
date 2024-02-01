@@ -2,6 +2,7 @@ import express from 'express';
 import { AuthRoutes } from '../modules/auth/auth.routes';
 
 import { AccountRoutes } from '../modules/account/account.routes';
+import { AgricultureLoanRoutes } from '../modules/agricultureLoan/agricultureLoan.routes';
 import { DebitCreditCardRoutes } from '../modules/debitCreditCard/debitCreditCard.routes';
 import { ProfileRoutes } from '../modules/profile/profile.routes';
 import { UserRoutes } from '../modules/user/user.routes';
@@ -29,6 +30,10 @@ const moduleRoutes = [
   {
     path: '/debitCreditCards',
     route: DebitCreditCardRoutes,
+  },
+  {
+    path: '/agricultureloan',
+    route: AgricultureLoanRoutes,
   },
 ];
 

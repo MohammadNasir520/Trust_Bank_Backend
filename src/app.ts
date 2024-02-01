@@ -5,7 +5,6 @@ import routes from './app/routes';
 
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import { findLastAccountId } from './app/modules/account/account.utils';
 
 const app: Application = express();
 
@@ -40,7 +39,7 @@ app.set('view engine', 'ejs');
 app.get('/verifyEmailForm', async (req, res) => {
   res.render('hello');
 });
-findLastAccountId();
+
 //parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
