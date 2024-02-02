@@ -6,6 +6,7 @@ import { AgricultureLoanRoutes } from '../modules/agricultureLoan/agricultureLoa
 import { CardRoutes } from '../modules/card/card.routes';
 import { DebitCreditCardRoutes } from '../modules/debitCreditCard/debitCreditCard.routes';
 import { ProfileRoutes } from '../modules/profile/profile.routes';
+import { SendMoneyRoutes } from '../modules/sendMoney/sendMoney.routes';
 import { UserRoutes } from '../modules/user/user.routes';
 
 const router = express.Router();
@@ -39,6 +40,10 @@ const moduleRoutes = [
   {
     path: '/cards',
     route: CardRoutes,
+  },
+  {
+    path: '/sendmoney',
+    route: SendMoneyRoutes,
   },
 ];
 

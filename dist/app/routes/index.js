@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const auth_routes_1 = require("../modules/auth/auth.routes");
 const account_routes_1 = require("../modules/account/account.routes");
+const agricultureLoan_routes_1 = require("../modules/agricultureLoan/agricultureLoan.routes");
+const card_routes_1 = require("../modules/card/card.routes");
 const debitCreditCard_routes_1 = require("../modules/debitCreditCard/debitCreditCard.routes");
 const profile_routes_1 = require("../modules/profile/profile.routes");
 const user_routes_1 = require("../modules/user/user.routes");
@@ -31,6 +33,14 @@ const moduleRoutes = [
     {
         path: '/debitCreditCards',
         route: debitCreditCard_routes_1.DebitCreditCardRoutes,
+    },
+    {
+        path: '/agricultureloan',
+        route: agricultureLoan_routes_1.AgricultureLoanRoutes,
+    },
+    {
+        path: '/cards',
+        route: card_routes_1.CardRoutes,
     },
 ];
 moduleRoutes.forEach(route => router.use(route.path, route.route));

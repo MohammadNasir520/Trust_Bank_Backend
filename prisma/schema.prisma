@@ -189,3 +189,16 @@ enum CardStatus {
   pending
   rejected
 }
+
+model SendMoney {
+  id              String          @unique @default(uuid())
+  swiftCode       String
+  sellerAccountId String
+  userAccountId   String
+  sentStatus      sendMoneyStatus @default(pending)
+}
+
+enum sendMoneyStatus {
+  pending
+  sent
+}

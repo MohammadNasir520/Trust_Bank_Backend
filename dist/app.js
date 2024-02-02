@@ -9,7 +9,6 @@ const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalEr
 const routes_1 = __importDefault(require("./app/routes"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
-const account_utils_1 = require("./app/modules/account/account.utils");
 const app = (0, express_1.default)();
 // cors bolck handle
 // app.use(cors({ origin: 'livelink here', credentials: true }));
@@ -36,7 +35,6 @@ app.set('view engine', 'ejs');
 app.get('/verifyEmailForm', async (req, res) => {
     res.render('hello');
 });
-(0, account_utils_1.findLastAccountId)();
 //parser
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
