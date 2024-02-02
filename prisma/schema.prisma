@@ -161,22 +161,27 @@ model EducationLoan {
 // }
 
 model Card {
-  id               String @unique @default(uuid())
+  id               String   @unique @default(uuid())
   country          String
   loanAmount       String
   employmentStatus String
-
-  birthDate     String
-  ssn           String
-  address       String
-  annualIncome  String
-  nidNumber     String
-  maritalStatus String
-  creditScore   String
-  userId        String
-  user          User   @relation(fields: [userId], references: [id])
+  cardType         cardType
+  birthDate        String
+  ssn              String
+  address          String
+  annualIncome     String
+  nidNumber        String
+  maritalStatus    String
+  creditScore      String
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
 
   status CardStatus @default(pending)
+}
+
+enum cardType {
+  credit
+  debit
 }
 
 enum CardStatus {
