@@ -20,6 +20,7 @@ model User {
   // accounts  Account[]
   accounts        Accounts[]
   agricultureLoan AgricultureLoan[]
+  card            Card[]
 
   @@map("users")
 }
@@ -89,6 +90,7 @@ model DebitCreditCardCondition {
 // Agriculture loan
 model AgricultureLoan {
   id               String     @unique @default(uuid())
+  loanName         String
   amount           Float
   cropType         String
   landSize         String
@@ -160,8 +162,6 @@ model EducationLoan {
 
 model Card {
   id               String @unique @default(uuid())
-  name             String
-  email            String
   country          String
   loanAmount       String
   employmentStatus String
@@ -169,9 +169,18 @@ model Card {
   birthDate     String
   ssn           String
   address       String
-  number        String
   annualIncome  String
   nidNumber     String
   maritalStatus String
   creditScore   String
+  userId        String
+  user          User   @relation(fields: [userId], references: [id])
+
+  status CardStatus @default(pending)
+}
+
+enum CardStatus {
+  accepted
+  pending
+  rejected
 }
