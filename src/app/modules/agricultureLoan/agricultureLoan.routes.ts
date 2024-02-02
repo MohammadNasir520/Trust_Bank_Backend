@@ -23,7 +23,12 @@ router.get('/:id', AgricultureLoanController.getByIdFromDB);
 
 router.patch(
   '/:id',
-  // auth(ENUM_USER_ROLE.ADMIN),
+  auth(
+    ENUM_USER_ROLE.ADMIN,
+    ENUM_USER_ROLE.MANAGER,
+    ENUM_USER_ROLE.CLIENT,
+    ENUM_USER_ROLE.SUPER_ADMIN
+  ),
   // validateRequest(AgricultureLoanValidation.updateZodSchema),
   AgricultureLoanController.updateIntoDB
 );
