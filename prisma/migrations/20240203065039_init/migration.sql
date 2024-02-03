@@ -10,6 +10,9 @@ CREATE TYPE "cardType" AS ENUM ('credit', 'debit');
 -- CreateEnum
 CREATE TYPE "CardStatus" AS ENUM ('accepted', 'pending', 'rejected');
 
+-- CreateEnum
+CREATE TYPE "sendMoneyStatus" AS ENUM ('pending', 'sent');
+
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
@@ -126,6 +129,15 @@ CREATE TABLE "Card" (
     "status" "CardStatus" NOT NULL DEFAULT 'pending'
 );
 
+-- CreateTable
+CREATE TABLE "SendMoney" (
+    "id" TEXT NOT NULL,
+    "swiftCode" TEXT NOT NULL,
+    "sellerAccountId" TEXT NOT NULL,
+    "userAccountId" TEXT NOT NULL,
+    "sentStatus" "sendMoneyStatus" NOT NULL DEFAULT 'pending'
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
@@ -155,6 +167,9 @@ CREATE UNIQUE INDEX "EducationLoan_id_key" ON "EducationLoan"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Card_id_key" ON "Card"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "SendMoney_id_key" ON "SendMoney"("id");
 
 -- AddForeignKey
 ALTER TABLE "accounts" ADD CONSTRAINT "accounts_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

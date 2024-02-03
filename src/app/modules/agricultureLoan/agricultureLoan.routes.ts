@@ -35,7 +35,7 @@ router.patch(
 
 router.delete(
   '/:id',
-  auth(ENUM_USER_ROLE.ADMIN),
+  // auth(ENUM_USER_ROLE.ADMIN),
   AgricultureLoanController.deleteFromDB
 );
 export const AgricultureLoanRoutes = router;

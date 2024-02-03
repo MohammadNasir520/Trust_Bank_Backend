@@ -145,21 +145,6 @@ model EducationLoan {
   guarantorAddress String
 }
 
-// {fullName: "asik",
-//     email: "as@gmail.com",
-//     country: "bangladesh",
-//     loanAmount: "25",
-//     employmentStatus: "employed",
-//     birthDate: " 01/01/1990",
-//     ssn: " 123-45-6789",
-//     address: " dhaka",
-//     number: " 1234567890",
-//     annualIncome: " 500000",
-//     nidNumber: " 1234567890",
-//     maritalStatus: " single",
-//     creditScore: " 500",
-// }
-
 model Card {
   id               String   @unique @default(uuid())
   country          String

@@ -32,7 +32,7 @@ const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'DebitCreditCard fetched successfully',
+    message: 'AgricultureLoan fetched successfully',
     data: result,
   });
 });
@@ -40,12 +40,12 @@ const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
 const updateIntoDB = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const payload = req.body;
-
+  console.log('payload', payload);
   const result = await AgricultureLoanService.updateIntoDB(id, payload);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'DebitCreditCard updated successfully',
+    message: 'AgricultureLoan updated successfully',
     data: result,
   });
 });
@@ -56,7 +56,7 @@ const deleteFromDB = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'DebitCreditCard deleted successfully',
+    message: 'AgricultureLoan deleted successfully',
     data: result,
   });
 });
