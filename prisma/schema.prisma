@@ -10,6 +10,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// schema.prisma
+
+model BankProfile {
+  id         String @id @default("trust-bank-1234")
+  bankName   String
+  branchName String
+  location   String
+
+  bankBalances BankBalance[]
+}
+
+model BankBalance {
+  id       String @id @default(uuid())
+  currency String
+  balance  Float
+
+  bankProfileId String
+  bankProfile   BankProfile @relation(fields: [bankProfileId], references: [id])
+}
+
 model User {
   id              String            @id @default(uuid())
   name            String
@@ -146,7 +166,7 @@ model EducationLoan {
 }
 
 model Card {
-  id               String   @unique @default(uuid())
+  id               String     @unique @default(uuid())
   country          String
   loanAmount       String
   employmentStatus String
@@ -159,9 +179,8 @@ model Card {
   maritalStatus    String
   creditScore      String
   userId           String
-  user             User     @relation(fields: [userId], references: [id])
-
-  status CardStatus @default(pending)
+  status           CardStatus @default(pending)
+  user             User       @relation(fields: [userId], references: [id])
 }
 
 enum cardType {

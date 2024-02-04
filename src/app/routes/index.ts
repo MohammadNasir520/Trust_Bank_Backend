@@ -3,6 +3,8 @@ import { AuthRoutes } from '../modules/auth/auth.routes';
 
 import { AccountRoutes } from '../modules/account/account.routes';
 import { AgricultureLoanRoutes } from '../modules/agricultureLoan/agricultureLoan.routes';
+import { BankBalanceRoutes } from '../modules/bankBalance/bankBalance.routes';
+import { BankProfileRoutes } from '../modules/bankProfile/bankProfile.routes';
 import { CardRoutes } from '../modules/card/card.routes';
 import { DebitCreditCardRoutes } from '../modules/debitCreditCard/debitCreditCard.routes';
 import { ProfileRoutes } from '../modules/profile/profile.routes';
@@ -13,6 +15,14 @@ const router = express.Router();
 
 const moduleRoutes = [
   // ... routes
+  {
+    path: '/bankprofile',
+    route: BankProfileRoutes,
+  },
+  {
+    path: '/bankbalance',
+    route: BankBalanceRoutes,
+  },
   {
     path: '/auth',
     route: AuthRoutes,

@@ -1,38 +1,36 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 
-import { JwtPayload } from 'jsonwebtoken';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
-import { AgricultureLoanService } from './agricultureLoan.service';
+import { BankProfileService } from './bankProfile.service';
 
 const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
-  const authUser = req.user as JwtPayload;
-  const result = await AgricultureLoanService.insertIntoDB(req.body, authUser);
+  const result = await BankProfileService.insertIntoDB(req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'AgricultureLoans created successfully',
+    message: 'BankProfiles created successfully',
     data: result,
   });
 });
 const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
-  const result = await AgricultureLoanService.getAllFromDB();
+  const result = await BankProfileService.getAllFromDB();
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'AgricultureLoans fetched successfully',
+    message: 'BankProfiles fetched successfully',
     data: result,
   });
 });
 
 const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await AgricultureLoanService.getByIdFromDB(id);
+  const result = await BankProfileService.getByIdFromDB(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'AgricultureLoan fetched successfully',
+    message: 'BankProfile fetched successfully',
     data: result,
   });
 });
@@ -41,27 +39,27 @@ const updateIntoDB = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const payload = req.body;
 
-  const result = await AgricultureLoanService.updateIntoDB(id, payload);
+  const result = await BankProfileService.updateIntoDB(id, payload);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'AgricultureLoan updated successfully',
+    message: 'BankProfile updated successfully',
     data: result,
   });
 });
 const deleteFromDB = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
 
-  const result = await AgricultureLoanService.deleteFromDB(id);
+  const result = await BankProfileService.deleteFromDB(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'AgricultureLoan deleted successfully',
+    message: 'BankProfile deleted successfully',
     data: result,
   });
 });
 
-export const AgricultureLoanController = {
+export const BankProfileController = {
   insertIntoDB,
   getAllFromDB,
   getByIdFromDB,
