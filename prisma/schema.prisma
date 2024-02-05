@@ -72,10 +72,9 @@ model Accounts {
 }
 
 model UserBalance {
-  id       String @id @default(uuid())
-  currency String
-  balance  Float
-
+  id           String   @id @unique @default(uuid())
+  currency     String
+  balance      Float
   accountId    String
   userAccounts Accounts @relation(fields: [accountId], references: [id])
 }

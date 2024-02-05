@@ -8,7 +8,7 @@ import prisma from '../../../shared/prisma';
 const insertIntoDB = async (
   data: UserBalance,
   authUser: JwtPayload
-): Promise<UserBalance> => {
+): Promise<UserBalance | undefined> => {
   const bankAccount = await prisma.accounts.findFirst({
     where: {
       userId: authUser.userId,
@@ -25,13 +25,36 @@ const insertIntoDB = async (
   }
 
   // return console.log(data, bankAccount?.id);
-  data.accountId = accountId;
-  const result = await prisma.userBalance.create({
-    data,
-    include: {
-      userAccounts: true,
+
+  const findExistBalance = await prisma.userBalance.findFirst({
+    where: {
+      accountId: accountId,
+      currency: data.currency,
     },
   });
+
+  let result;
+  if (!findExistBalance) {
+    result = await prisma.userBalance.create({
+      data,
+      include: {
+        userAccounts: true,
+      },
+    });
+  } else if (findExistBalance) {
+    const newBalance = data.balance + findExistBalance.balance;
+    result = await prisma.userBalance.update({
+      where: {
+        id: findExistBalance.id,
+        accountId: accountId,
+        currency: data.currency,
+      },
+      data: {
+        balance: newBalance,
+      },
+    });
+  }
+
   return result;
 };
 

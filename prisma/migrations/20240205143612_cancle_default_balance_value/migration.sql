@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "BankBalance" ALTER COLUMN "balance" DROP DEFAULT,
+ALTER COLUMN "currency" DROP DEFAULT;
+
+-- AlterTable
+ALTER TABLE "UserBalance" ALTER COLUMN "currency" DROP DEFAULT,
+ALTER COLUMN "balance" DROP DEFAULT;
