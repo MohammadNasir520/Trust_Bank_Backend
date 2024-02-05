@@ -31,16 +31,17 @@ model BankBalance {
 }
 
 model User {
-  id              String            @id @default(uuid())
-  name            String
-  email           String            @unique
-  password        String
-  role            UserRole          @default(client)
-  createdAt       DateTime          @default(now())
+  id                String             @id @default(uuid())
+  name              String
+  email             String             @unique
+  password          String
+  role              UserRole           @default(client)
+  createdAt         DateTime           @default(now())
   // accounts  Account[]
-  accounts        Accounts[]
-  agricultureLoan AgricultureLoan[]
-  card            Card[]
+  accounts          Accounts[]
+  agricultureLoan   AgricultureLoan[]
+  card              Card[]
+  currencyExchanges CurrencyExchange[]
 
   @@map("users")
 }
@@ -53,9 +54,8 @@ enum UserRole {
 }
 
 model Accounts {
-  id           String   @unique @default(uuid())
-  accountId    String   @unique
-  balance      Float    @default(0)
+  id           String        @unique @default(uuid())
+  accountId    String        @unique
   contactNo    String
   profession   String
   age          Int
@@ -64,10 +64,20 @@ model Accounts {
   accountType  String
   citizenShip  String
   userId       String
-  user         User     @relation(fields: [userId], references: [id])
-  createdAt    DateTime @default(now())
+  user         User          @relation(fields: [userId], references: [id])
+  createdAt    DateTime      @default(now())
+  userBalances UserBalance[]
 
   @@map("accounts")
+}
+
+model UserBalance {
+  id       String @id @default(uuid())
+  currency String
+  balance  Float
+
+  accountId    String
+  userAccounts Accounts @relation(fields: [accountId], references: [id])
 }
 
 // {
@@ -85,6 +95,7 @@ model Accounts {
 
 //   }]
 // },
+
 model DebitCreditCard {
   id          String   @unique @default(uuid())
   title       String
@@ -205,4 +216,14 @@ model SendMoney {
 enum sendMoneyStatus {
   pending
   sent
+}
+
+model CurrencyExchange {
+  id           String @id @default(uuid())
+  userId       String
+  fromCurrency String
+  toCurrency   String
+  fromAmount   Float
+  toAmount     Float
+  user         User   @relation(fields: [userId], references: [id])
 }

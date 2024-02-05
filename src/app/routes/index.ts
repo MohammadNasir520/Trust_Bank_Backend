@@ -6,10 +6,12 @@ import { AgricultureLoanRoutes } from '../modules/agricultureLoan/agricultureLoa
 import { BankBalanceRoutes } from '../modules/bankBalance/bankBalance.routes';
 import { BankProfileRoutes } from '../modules/bankProfile/bankProfile.routes';
 import { CardRoutes } from '../modules/card/card.routes';
+import { CurrencyExchangeRoutes } from '../modules/currencyExchange/currencyExchange.routes';
 import { DebitCreditCardRoutes } from '../modules/debitCreditCard/debitCreditCard.routes';
 import { ProfileRoutes } from '../modules/profile/profile.routes';
 import { SendMoneyRoutes } from '../modules/sendMoney/sendMoney.routes';
 import { UserRoutes } from '../modules/user/user.routes';
+import { UserBalanceRoutes } from '../modules/userBalance/userBalance.routes';
 
 const router = express.Router();
 
@@ -40,6 +42,10 @@ const moduleRoutes = [
     route: AccountRoutes,
   },
   {
+    path: '/userbalances',
+    route: UserBalanceRoutes,
+  },
+  {
     path: '/debitCreditCards',
     route: DebitCreditCardRoutes,
   },
@@ -54,6 +60,10 @@ const moduleRoutes = [
   {
     path: '/sendmoney',
     route: SendMoneyRoutes,
+  },
+  {
+    path: '/currency-exchanges',
+    route: CurrencyExchangeRoutes,
   },
 ];
 

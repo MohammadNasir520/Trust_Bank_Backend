@@ -39,6 +39,7 @@ const getAllFromDB = async (): Promise<Partial<Accounts>[]> => {
   const result = await prisma.accounts.findMany({
     include: {
       user: true,
+      userBalances: true,
     },
   });
   return result;

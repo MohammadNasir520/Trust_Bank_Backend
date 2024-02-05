@@ -8,16 +8,28 @@ const insertIntoDB = async (data: User): Promise<User> => {
   return result;
 };
 
+// const getAllFromDB = async (): Promise<Partial<User>[]> => {
+//   const result = await prisma.user.findMany({
+//     select: {
+//       id: true,
+//       name: true,
+//       email: true,
+//       role: true,
+//     },
+//     include: {
+//       accounts: true,
+//     },
+//   });
+//   return result;
+// };
 const getAllFromDB = async (): Promise<Partial<User>[]> => {
   const result = await prisma.user.findMany({
-    // where: {
-    //   role: 'tutor',
-    // },
     select: {
       id: true,
       name: true,
       email: true,
       role: true,
+      accounts: true,
     },
   });
   return result;
