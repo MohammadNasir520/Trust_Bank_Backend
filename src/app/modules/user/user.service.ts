@@ -29,7 +29,11 @@ const getAllFromDB = async (): Promise<Partial<User>[]> => {
       name: true,
       email: true,
       role: true,
-      accounts: true,
+      accounts: {
+        include: {
+          userBalances: true,
+        },
+      },
     },
   });
   return result;
