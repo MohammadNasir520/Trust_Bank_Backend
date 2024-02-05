@@ -35,15 +35,27 @@ const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const updateIntoDB = catchAsync(async (req: Request, res: Response) => {
+const deposit = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const payload = req.body;
 
-  const result = await BankBalanceService.updateIntoDB(id, payload);
+  const result = await BankBalanceService.deposit(id, payload);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'BankBalance updated successfully',
+    message: 'deposit successfully',
+    data: result,
+  });
+});
+const withdraw = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const payload = req.body;
+
+  const result = await BankBalanceService.withdraw(id, payload);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'withdraw successfully',
     data: result,
   });
 });
@@ -63,6 +75,7 @@ export const BankBalanceController = {
   insertIntoDB,
   getAllFromDB,
   getByIdFromDB,
-  updateIntoDB,
+  deposit,
+  withdraw,
   deleteFromDB,
 };

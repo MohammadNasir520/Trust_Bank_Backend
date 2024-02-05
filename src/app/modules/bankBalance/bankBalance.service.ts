@@ -38,7 +38,7 @@ const getByIdFromDB = async (
   return result;
 };
 
-const updateIntoDB = async (
+const deposit = async (
   id: string,
   payload: Partial<BankBalance>
 ): Promise<Partial<BankBalance>> => {
@@ -52,6 +52,32 @@ const updateIntoDB = async (
   if (existingBalace && payload.balance) {
     // eslint-disable-next-line no-unused-vars
     newBalance = existingBalace?.balance + payload.balance;
+  }
+
+  const result = await prisma.bankBalance.update({
+    where: {
+      id: id,
+    },
+    data: {
+      balance: newBalance,
+    },
+  });
+  return result;
+};
+const withdraw = async (
+  id: string,
+  payload: Partial<BankBalance>
+): Promise<Partial<BankBalance>> => {
+  const existingBalace = await prisma.bankBalance.findFirst({
+    where: {
+      id: id,
+    },
+  });
+
+  let newBalance = 0;
+  if (existingBalace && payload.balance) {
+    // eslint-disable-next-line no-unused-vars
+    newBalance = existingBalace?.balance - payload.balance;
   }
 
   const result = await prisma.bankBalance.update({
@@ -78,6 +104,7 @@ export const BankBalanceService = {
   insertIntoDB,
   getAllFromDB,
   getByIdFromDB,
-  updateIntoDB,
+  deposit,
+  withdraw,
   deleteFromDB,
 };

@@ -22,7 +22,7 @@ router.get('/', BankBalanceController.getAllFromDB);
 router.get('/:id', BankBalanceController.getByIdFromDB);
 
 router.patch(
-  '/:id',
+  '/deposit/:id',
   // auth(
   //   ENUM_USER_ROLE.ADMIN,
   //   ENUM_USER_ROLE.MANAGER,
@@ -30,7 +30,18 @@ router.patch(
   //   ENUM_USER_ROLE.SUPER_ADMIN
   // ),
   validateRequest(BankBalanceValidation.updateZodSchema),
-  BankBalanceController.updateIntoDB
+  BankBalanceController.deposit
+);
+router.patch(
+  '/withdraw/:id',
+  // auth(
+  //   ENUM_USER_ROLE.ADMIN,
+  //   ENUM_USER_ROLE.MANAGER,
+  //   ENUM_USER_ROLE.CLIENT,
+  //   ENUM_USER_ROLE.SUPER_ADMIN
+  // ),
+  validateRequest(BankBalanceValidation.updateZodSchema),
+  BankBalanceController.withdraw
 );
 
 router.delete(
