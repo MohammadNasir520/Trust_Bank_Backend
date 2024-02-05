@@ -42,11 +42,25 @@ const updateIntoDB = async (
   id: string,
   payload: Partial<BankBalance>
 ): Promise<Partial<BankBalance>> => {
+  const existingBalace = await prisma.bankBalance.findFirst({
+    where: {
+      id: id,
+    },
+  });
+
+  let newBalance = 0;
+  if (existingBalace && payload.balance) {
+    // eslint-disable-next-line no-unused-vars
+    newBalance = existingBalace?.balance + payload.balance;
+  }
+
   const result = await prisma.bankBalance.update({
     where: {
       id: id,
     },
-    data: payload,
+    data: {
+      balance: newBalance,
+    },
   });
   return result;
 };
