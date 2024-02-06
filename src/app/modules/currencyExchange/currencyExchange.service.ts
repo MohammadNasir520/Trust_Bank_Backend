@@ -19,7 +19,18 @@ const insertIntoDB = async (data: CurrencyExchange, authUser: JwtPayload) => {
   });
 
   let result;
-  if (findBalance?.id) {
+  if (!findBalance?.id) {
+    result = await prisma.userBalance.create({
+      data: {
+        id: authUser.userId,
+        balance: data.toAmount,
+        currency: data.toCurrency,
+        userAccounts: {
+          connect: { id: accountId },
+        },
+      },
+    });
+  } else if (findBalance?.id) {
     const newBalance = findBalance.balance + data.toAmount;
     result = await prisma.userBalance.update({
       where: {
