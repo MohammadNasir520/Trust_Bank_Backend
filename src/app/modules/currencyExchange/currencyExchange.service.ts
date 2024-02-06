@@ -11,7 +11,7 @@ const insertIntoDB = async (data: CurrencyExchange, authUser: JwtPayload) => {
   });
   const accountId = findUser?.id;
 
-  const findBalance = await prisma.userBalance.findFirst({
+  const findUserBalance = await prisma.userBalance.findFirst({
     where: {
       accountId: accountId,
       currency: data.toCurrency,
@@ -19,10 +19,9 @@ const insertIntoDB = async (data: CurrencyExchange, authUser: JwtPayload) => {
   });
 
   let result;
-  if (!findBalance?.id) {
+  if (!findUserBalance?.id) {
     result = await prisma.userBalance.create({
       data: {
-        id: authUser.userId,
         balance: data.toAmount,
         currency: data.toCurrency,
         userAccounts: {
@@ -30,11 +29,11 @@ const insertIntoDB = async (data: CurrencyExchange, authUser: JwtPayload) => {
         },
       },
     });
-  } else if (findBalance?.id) {
-    const newBalance = findBalance.balance + data.toAmount;
+  } else if (findUserBalance?.id) {
+    const newBalance = findUserBalance.balance + data.toAmount;
     result = await prisma.userBalance.update({
       where: {
-        id: findBalance.id,
+        id: findUserBalance.id,
         accountId: accountId,
         currency: data.toCurrency,
       },
@@ -42,6 +41,32 @@ const insertIntoDB = async (data: CurrencyExchange, authUser: JwtPayload) => {
         balance: newBalance,
       },
     });
+
+    // eslint-disable-next-line no-unused-vars
+    const newBankBalance = findUserBalance.balance - data.fromAmount;
+    console.log('newbankbalance', newBankBalance);
+    // eslint-disable-next-line no-unused-vars
+    const bankBalanceResult = await prisma.bankBalance.findFirst({
+      where: {
+        currency: data.fromCurrency,
+      },
+    });
+
+    console.log('findbankbalance', bankBalanceResult);
+    if (bankBalanceResult) {
+      const newBalance = bankBalanceResult.balance - data.fromAmount;
+      // console.log(bankBalanceResult.balance - data.fromAmount);
+      // eslint-disable-next-line no-unused-vars
+      const updateBankBalanceResult = await prisma.bankBalance.update({
+        where: {
+          id: bankBalanceResult.id,
+          currency: data.fromCurrency,
+        },
+        data: {
+          balance: newBalance,
+        },
+      });
+    }
   }
 
   return result;

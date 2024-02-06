@@ -31,7 +31,7 @@ model BankBalance {
 }
 
 model User {
-  id                String             @id @default(uuid())
+  id                String             @id @unique @default(uuid())
   name              String
   email             String             @unique
   password          String
@@ -218,7 +218,7 @@ enum sendMoneyStatus {
 }
 
 model CurrencyExchange {
-  id           String @id @default(uuid())
+  id           String @id @unique @default(uuid())
   userId       String
   fromCurrency String
   toCurrency   String
