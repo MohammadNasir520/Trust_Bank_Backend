@@ -44,7 +44,7 @@ const insertIntoDB = async (data: CurrencyExchange, authUser: JwtPayload) => {
 
     // eslint-disable-next-line no-unused-vars
     const newBankBalance = findUserBalance.balance - data.fromAmount;
-    console.log('newbankbalance', newBankBalance);
+
     // eslint-disable-next-line no-unused-vars
     const bankBalanceResult = await prisma.bankBalance.findFirst({
       where: {
@@ -52,7 +52,6 @@ const insertIntoDB = async (data: CurrencyExchange, authUser: JwtPayload) => {
       },
     });
 
-    console.log('findbankbalance', bankBalanceResult);
     if (bankBalanceResult) {
       const newBalance = bankBalanceResult.balance - data.fromAmount;
       // console.log(bankBalanceResult.balance - data.fromAmount);
