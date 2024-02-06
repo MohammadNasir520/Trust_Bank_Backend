@@ -12,7 +12,7 @@ const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'CurrencyExchanges created successfully',
+    message: 'CurrencyExchanges  successfully',
     data: result,
   });
 });
