@@ -7,7 +7,7 @@ import { BankBalanceValidation } from './bankBalance.validation';
 const router = express.Router();
 
 router.post(
-  '/',
+  '/add-currency',
   // auth(
   //   ENUM_USER_ROLE.ADMIN,
   //   ENUM_USER_ROLE.MANAGER,

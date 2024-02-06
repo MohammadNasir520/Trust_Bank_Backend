@@ -16,6 +16,16 @@ const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const userWithdraw = catchAsync(async (req: Request, res: Response) => {
+  const authUser = req.user as JwtPayload;
+  const result = await UserBalanceService.userWithdraw(req.body, authUser);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'UserBalances created successfully',
+    data: result,
+  });
+});
 const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
   const result = await UserBalanceService.getAllFromDB();
   sendResponse(res, {
@@ -37,30 +47,6 @@ const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const deposit = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const payload = req.body;
-
-  const result = await UserBalanceService.deposit(id, payload);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'deposit successfully',
-    data: result,
-  });
-});
-const withdraw = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const payload = req.body;
-
-  const result = await UserBalanceService.withdraw(id, payload);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'withdraw successfully',
-    data: result,
-  });
-});
 const deleteFromDB = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
 
@@ -77,7 +63,6 @@ export const UserBalanceController = {
   insertIntoDB,
   getAllFromDB,
   getByIdFromDB,
-  deposit,
-  withdraw,
+  userWithdraw,
   deleteFromDB,
 };

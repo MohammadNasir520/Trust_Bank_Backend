@@ -8,7 +8,7 @@ import { UserBalanceController } from './userBalance.controller';
 const router = express.Router();
 
 router.post(
-  '/',
+  '/user-deposit',
   auth(
     ENUM_USER_ROLE.ADMIN,
     ENUM_USER_ROLE.MANAGER,
@@ -18,32 +18,20 @@ router.post(
   // validateRequest(UserBalanceValidation.CreateZodSchema),
   UserBalanceController.insertIntoDB
 );
+router.post(
+  '/user-withdraw',
+  auth(
+    ENUM_USER_ROLE.ADMIN,
+    ENUM_USER_ROLE.MANAGER,
+    ENUM_USER_ROLE.CLIENT,
+    ENUM_USER_ROLE.SUPER_ADMIN
+  ),
+  // validateRequest(UserBalanceValidation.CreateZodSchema),
+  UserBalanceController.userWithdraw
+);
 
 router.get('/', UserBalanceController.getAllFromDB);
 router.get('/:id', UserBalanceController.getByIdFromDB);
-
-router.patch(
-  '/deposit/:id',
-  // auth(
-  //   ENUM_USER_ROLE.ADMIN,
-  //   ENUM_USER_ROLE.MANAGER,
-  //   ENUM_USER_ROLE.CLIENT,
-  //   ENUM_USER_ROLE.SUPER_ADMIN
-  // ),
-  // validateRequest(UserBalanceValidation.updateZodSchema),
-  UserBalanceController.deposit
-);
-router.patch(
-  '/withdraw/:id',
-  // auth(
-  //   ENUM_USER_ROLE.ADMIN,
-  //   ENUM_USER_ROLE.MANAGER,
-  //   ENUM_USER_ROLE.CLIENT,
-  //   ENUM_USER_ROLE.SUPER_ADMIN
-  // ),
-  // validateRequest(UserBalanceValidation.updateZodSchema),
-  UserBalanceController.withdraw
-);
 
 router.delete(
   '/:id',
