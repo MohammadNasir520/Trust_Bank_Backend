@@ -226,3 +226,19 @@ model CurrencyExchange {
   toAmount     Float
   user         User   @relation(fields: [userId], references: [id])
 }
+
+model Transaction {
+  id      String @id @unique @default(uuid())
+  title   String
+  ammount Float
+  userId  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum TransactionTitle {
+  deposit
+  withdraw
+  currencyExchanges
+}
