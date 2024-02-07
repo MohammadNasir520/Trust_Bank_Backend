@@ -52,6 +52,9 @@ const insertIntoDB = async (
       data: {
         balance: newBalance,
       },
+      include: {
+        userAccounts: true,
+      },
     });
   }
 

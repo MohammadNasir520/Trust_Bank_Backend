@@ -49,6 +49,11 @@ const getByIdFromDB = async (id: string): Promise<Partial<User | null>> => {
       name: true,
       email: true,
       role: true,
+      accounts: {
+        include: {
+          userBalances: true,
+        },
+      },
     },
   });
   return result;
