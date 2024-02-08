@@ -41,6 +41,15 @@ const insertIntoDB = async (
         userAccounts: true,
       },
     });
+    const transaction = await prisma.userTransaction.create({
+      data: {
+        type: 'deposit',
+        amount: data.balance,
+        userId: authUser.userId,
+        currency: data.currency,
+      },
+    });
+    console.log('tran 1', transaction);
   } else if (findExistBalance) {
     const newBalance = data.balance + findExistBalance.balance;
     result = await prisma.userBalance.update({
@@ -57,7 +66,15 @@ const insertIntoDB = async (
       },
     });
   }
-
+  const transaction = await prisma.userTransaction.create({
+    data: {
+      type: 'deposit',
+      amount: data.balance,
+      userId: authUser.userId,
+      currency: data.currency,
+    },
+  });
+  console.log('tran 2', transaction);
   return result;
 };
 const userWithdraw = async (
@@ -111,7 +128,15 @@ const userWithdraw = async (
       },
     });
   }
-
+  const transaction = await prisma.userTransaction.create({
+    data: {
+      type: 'withdraw',
+      amount: data.balance,
+      userId: authUser.userId,
+      currency: data.currency,
+    },
+  });
+  console.log('tran withdraw', transaction);
   return result;
 };
 

@@ -3,62 +3,62 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AgricultureLoanController = void 0;
+exports.SendMoneyController = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
-const agricultureLoan_service_1 = require("./agricultureLoan.service");
+const sendMoney_service_1 = require("./sendMoney.service");
 const insertIntoDB = (0, catchAsync_1.default)(async (req, res) => {
     const authUser = req.user;
-    const result = await agricultureLoan_service_1.AgricultureLoanService.insertIntoDB(req.body, authUser);
+    const result = await sendMoney_service_1.SendMoneyService.insertIntoDB(req.body, authUser);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'AgricultureLoans created successfully',
+        message: 'SendMoneys created successfully',
         data: result,
     });
 });
 const getAllFromDB = (0, catchAsync_1.default)(async (req, res) => {
-    const result = await agricultureLoan_service_1.AgricultureLoanService.getAllFromDB();
+    const result = await sendMoney_service_1.SendMoneyService.getAllFromDB();
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'AgricultureLoans fetched successfully',
+        message: 'SendMoneys fetched successfully',
         data: result,
     });
 });
 const getByIdFromDB = (0, catchAsync_1.default)(async (req, res) => {
     const { id } = req.params;
-    const result = await agricultureLoan_service_1.AgricultureLoanService.getByIdFromDB(id);
+    const result = await sendMoney_service_1.SendMoneyService.getByIdFromDB(id);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'AgricultureLoan fetched successfully',
+        message: 'DebitCreditSendMoney fetched successfully',
         data: result,
     });
 });
 const updateIntoDB = (0, catchAsync_1.default)(async (req, res) => {
     const id = req.params.id;
     const payload = req.body;
-    const result = await agricultureLoan_service_1.AgricultureLoanService.updateIntoDB(id, payload);
+    const result = await sendMoney_service_1.SendMoneyService.updateIntoDB(id, payload);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'AgricultureLoan updated successfully',
+        message: 'DebitCreditSendMoney updated successfully',
         data: result,
     });
 });
 const deleteFromDB = (0, catchAsync_1.default)(async (req, res) => {
     const id = req.params.id;
-    const result = await agricultureLoan_service_1.AgricultureLoanService.deleteFromDB(id);
+    const result = await sendMoney_service_1.SendMoneyService.deleteFromDB(id);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'AgricultureLoan deleted successfully',
+        message: 'DebitCreditSendMoney deleted successfully',
         data: result,
     });
 });
-exports.AgricultureLoanController = {
+exports.SendMoneyController = {
     insertIntoDB,
     getAllFromDB,
     getByIdFromDB,

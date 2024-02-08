@@ -42,6 +42,7 @@ model User {
   agricultureLoan   AgricultureLoan[]
   card              Card[]
   currencyExchanges CurrencyExchange[]
+  userTransactions  UserTransaction[]
 
   @@map("users")
 }
@@ -227,17 +228,18 @@ model CurrencyExchange {
   user         User   @relation(fields: [userId], references: [id])
 }
 
-model Transaction {
-  id      String @id @unique @default(uuid())
-  title   String
-  ammount Float
-  userId  String
-
+model UserTransaction {
+  id        String   @id @unique @default(uuid())
+  type      String
+  amount    Float
+  currency  String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-enum TransactionTitle {
+enum UserTransactionType {
   deposit
   withdraw
   currencyExchanges

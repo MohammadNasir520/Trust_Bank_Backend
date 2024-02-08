@@ -20,29 +20,6 @@ router.post(
 router.get('/', CurrencyExchangeController.getAllFromDB);
 router.get('/:id', CurrencyExchangeController.getByIdFromDB);
 
-router.patch(
-  '/deposit/:id',
-  // auth(
-  //   ENUM_USER_ROLE.ADMIN,
-  //   ENUM_USER_ROLE.MANAGER,
-  //   ENUM_USER_ROLE.CLIENT,
-  //   ENUM_USER_ROLE.SUPER_ADMIN
-  // ),
-  // validateRequest(CurrencyExchangeValidation.updateZodSchema),
-  CurrencyExchangeController.deposit
-);
-router.patch(
-  '/withdraw/:id',
-  // auth(
-  //   ENUM_USER_ROLE.ADMIN,
-  //   ENUM_USER_ROLE.MANAGER,
-  //   ENUM_USER_ROLE.CLIENT,
-  //   ENUM_USER_ROLE.SUPER_ADMIN
-  // ),
-  // validateRequest(CurrencyExchangeValidation.updateZodSchema),
-  CurrencyExchangeController.withdraw
-);
-
 router.delete(
   '/:id',
   // auth(ENUM_USER_ROLE.ADMIN),

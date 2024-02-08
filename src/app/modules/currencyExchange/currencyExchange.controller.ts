@@ -37,30 +37,30 @@ const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const deposit = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const payload = req.body;
+// const deposit = catchAsync(async (req: Request, res: Response) => {
+//   const id = req.params.id;
+//   const payload = req.body;
 
-  const result = await CurrencyExchangeService.deposit(id, payload);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'deposit successfully',
-    data: result,
-  });
-});
-const withdraw = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const payload = req.body;
+//   const result = await CurrencyExchangeService.deposit(id, payload);
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'deposit successfully',
+//     data: result,
+//   });
+// });
+// const withdraw = catchAsync(async (req: Request, res: Response) => {
+//   const id = req.params.id;
+//   const payload = req.body;
 
-  const result = await CurrencyExchangeService.withdraw(id, payload);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'withdraw successfully',
-    data: result,
-  });
-});
+//   const result = await CurrencyExchangeService.withdraw(id, payload);
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'withdraw successfully',
+//     data: result,
+//   });
+// });
 const deleteFromDB = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
 
@@ -77,7 +77,7 @@ export const CurrencyExchangeController = {
   insertIntoDB,
   getAllFromDB,
   getByIdFromDB,
-  deposit,
-  withdraw,
+  // deposit,
+  // withdraw,
   deleteFromDB,
 };

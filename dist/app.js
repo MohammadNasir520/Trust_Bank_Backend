@@ -14,7 +14,7 @@ const app = (0, express_1.default)();
 // app.use(cors({ origin: 'livelink here', credentials: true }));
 // app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use((0, cors_1.default)({
-    origin: ['http://localhost:3000', 'https://trust-banking.vercel.app/'],
+    origin: ['http://localhost:3000', 'https://trust-bank.vercel.app'],
     credentials: true,
 }));
 // app.use(cors({ origin: baseUrl(), credentials: true }));

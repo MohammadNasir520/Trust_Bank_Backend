@@ -33,6 +33,7 @@ const getAllFromDB = async () => {
     const result = await prisma_1.default.accounts.findMany({
         include: {
             user: true,
+            userBalances: true,
         },
     });
     return result;

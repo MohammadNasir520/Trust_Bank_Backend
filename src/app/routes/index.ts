@@ -12,6 +12,7 @@ import { ProfileRoutes } from '../modules/profile/profile.routes';
 import { SendMoneyRoutes } from '../modules/sendMoney/sendMoney.routes';
 import { UserRoutes } from '../modules/user/user.routes';
 import { UserBalanceRoutes } from '../modules/userBalance/userBalance.routes';
+import { UserTransactionRoutes } from '../modules/userTransaction/userTransaction.routes';
 
 const router = express.Router();
 
@@ -64,6 +65,10 @@ const moduleRoutes = [
   {
     path: '/currency-exchanges',
     route: CurrencyExchangeRoutes,
+  },
+  {
+    path: '/transactions',
+    route: UserTransactionRoutes,
   },
 ];
 

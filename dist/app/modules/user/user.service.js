@@ -11,16 +11,32 @@ const insertIntoDB = async (data) => {
     });
     return result;
 };
+// const getAllFromDB = async (): Promise<Partial<User>[]> => {
+//   const result = await prisma.user.findMany({
+//     select: {
+//       id: true,
+//       name: true,
+//       email: true,
+//       role: true,
+//     },
+//     include: {
+//       accounts: true,
+//     },
+//   });
+//   return result;
+// };
 const getAllFromDB = async () => {
     const result = await prisma_1.default.user.findMany({
-        // where: {
-        //   role: 'tutor',
-        // },
         select: {
             id: true,
             name: true,
             email: true,
             role: true,
+            accounts: {
+                include: {
+                    userBalances: true,
+                },
+            },
         },
     });
     return result;
@@ -35,6 +51,11 @@ const getByIdFromDB = async (id) => {
             name: true,
             email: true,
             role: true,
+            accounts: {
+                include: {
+                    userBalances: true,
+                },
+            },
         },
     });
     return result;

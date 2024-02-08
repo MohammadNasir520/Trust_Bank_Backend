@@ -18,5 +18,7 @@ router.get('/:id', agricultureLoan_controller_1.AgricultureLoanController.getByI
 router.patch('/:id', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.MANAGER, user_1.ENUM_USER_ROLE.CLIENT, user_1.ENUM_USER_ROLE.SUPER_ADMIN), 
 // validateRequest(AgricultureLoanValidation.updateZodSchema),
 agricultureLoan_controller_1.AgricultureLoanController.updateIntoDB);
-router.delete('/:id', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN), agricultureLoan_controller_1.AgricultureLoanController.deleteFromDB);
+router.delete('/:id', 
+// auth(ENUM_USER_ROLE.ADMIN),
+agricultureLoan_controller_1.AgricultureLoanController.deleteFromDB);
 exports.AgricultureLoanRoutes = router;
