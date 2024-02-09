@@ -128,7 +128,7 @@ const userWithdraw = async (
       },
     });
   }
-  const transaction = await prisma.userTransaction.create({
+  const userTransaction = await prisma.userTransaction.create({
     data: {
       type: 'withdraw',
       amount: data.balance,
@@ -136,7 +136,7 @@ const userWithdraw = async (
       currency: data.currency,
     },
   });
-  console.log('tran withdraw', transaction);
+  console.log('tran withdraw', userTransaction);
   return result;
 };
 

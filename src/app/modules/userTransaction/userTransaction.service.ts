@@ -1,8 +1,22 @@
 import { UserTransaction } from '@prisma/client';
 import prisma from '../../../shared/prisma';
 
-const getAllFromDB = async (): Promise<Partial<UserTransaction>[]> => {
+const getAllDepositFromDB = async (): Promise<Partial<UserTransaction>[]> => {
   const result = await prisma.userTransaction.findMany({
+    where: {
+      type: 'deposit',
+    },
+    include: {
+      user: true,
+    },
+  });
+  return result;
+};
+const getAllWithdrawFromDB = async (): Promise<Partial<UserTransaction>[]> => {
+  const result = await prisma.userTransaction.findMany({
+    where: {
+      type: 'withdraw',
+    },
     include: {
       user: true,
     },
@@ -13,9 +27,9 @@ const getAllFromDB = async (): Promise<Partial<UserTransaction>[]> => {
 const getByIdFromDB = async (
   id: string
 ): Promise<Partial<UserTransaction | null>> => {
-  const result = await prisma.userTransaction.findUnique({
+  const result = await prisma.userTransaction.findFirst({
     where: {
-      id: id,
+      userId: id,
     },
     include: {
       user: true,
@@ -37,7 +51,8 @@ const deleteFromDB = async (id: string) => {
 };
 
 export const UserTransactionService = {
-  getAllFromDB,
+  getAllDepositFromDB,
+  getAllWithdrawFromDB,
   getByIdFromDB,
   deleteFromDB,
 };

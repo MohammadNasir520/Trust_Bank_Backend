@@ -4,8 +4,15 @@ import { UserTransactionController } from './userTransaction.controller';
 
 const router = express.Router();
 
-router.get('/', UserTransactionController.getAllFromDB);
-router.get('/:id', UserTransactionController.getByIdFromDB);
+router.get(
+  '/deposit_withdraw/deposit',
+  UserTransactionController.getAllDepositFromDB
+);
+router.get(
+  '/deposit_withdraw/withdraw',
+  UserTransactionController.getAllWithdrawFromDB
+);
+router.get('/deposit_withdraw/:id', UserTransactionController.getByIdFromDB);
 
 router.delete(
   '/:id',
