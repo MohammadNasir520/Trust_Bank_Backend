@@ -10,7 +10,11 @@ const getByIdFromDB = async (user: JwtPayload): Promise<Partial<User>> => {
       id: user.userId,
     },
     include: {
-      accounts: true,
+      accounts: {
+        include: {
+          userBalances: true,
+        },
+      },
     },
   });
 
