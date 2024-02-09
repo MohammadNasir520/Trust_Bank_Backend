@@ -16,6 +16,7 @@ const profile_routes_1 = require("../modules/profile/profile.routes");
 const sendMoney_routes_1 = require("../modules/sendMoney/sendMoney.routes");
 const user_routes_1 = require("../modules/user/user.routes");
 const userBalance_routes_1 = require("../modules/userBalance/userBalance.routes");
+const userTransaction_routes_1 = require("../modules/userTransaction/userTransaction.routes");
 const router = express_1.default.Router();
 const moduleRoutes = [
     // ... routes
@@ -66,6 +67,10 @@ const moduleRoutes = [
     {
         path: '/currency-exchanges',
         route: currencyExchange_routes_1.CurrencyExchangeRoutes,
+    },
+    {
+        path: '/transactions',
+        route: userTransaction_routes_1.UserTransactionRoutes,
     },
 ];
 moduleRoutes.forEach(route => router.use(route.path, route.route));
