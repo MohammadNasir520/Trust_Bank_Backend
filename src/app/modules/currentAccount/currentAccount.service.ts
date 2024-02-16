@@ -1,6 +1,8 @@
 import { CurrentAccount } from '@prisma/client';
 
+import httpStatus from 'http-status';
 import { JwtPayload } from 'jsonwebtoken';
+import ApiError from '../../../errors/ApiError';
 import prisma from '../../../shared/prisma';
 import { sendEMail } from '../../../utils/sendMail';
 import { createNewIdNumber } from './currentAccount.utils';
@@ -8,22 +10,37 @@ import { createNewIdNumber } from './currentAccount.utils';
 const insertIntoDB = async (
   data: CurrentAccount,
   authUser: JwtPayload
-): Promise<CurrentAccount | null> => {
+): Promise<CurrentAccount> => {
   const findUser = await prisma.user.findFirst({
     where: {
       id: authUser.userId,
     },
   });
   console.log('finduser', findUser);
+  if (!authUser.userId) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'please login first');
+  }
 
-  data.userId = authUser.userId;
+  const findAccount = await prisma.currentAccount.findFirst({
+    where: {
+      userId: authUser.userId,
+    },
+  });
+  if (findAccount) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'you already have an account');
+  }
 
   const id = await createNewIdNumber(data?.accountType);
   data.accountId = id;
   console.log('user', data);
-  // const result = await prisma.currentAccount.create({
-  //   data,
-  // });
+  const result = await prisma.currentAccount.create({
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    data: {
+      ...data,
+      user: { connect: { id: authUser.userId } },
+    },
+  });
   const subject = 'congratulations your Trust Bank account has been created';
   const from = process.env.Email;
   const html = `<p> Account ID: ${id}`;
@@ -32,14 +49,22 @@ const insertIntoDB = async (
   if (findUser) {
     sendEMail(from, findUser.email, subject, html);
   }
-  return null;
+  return result;
 };
 
 const getAllFromDB = async (): Promise<Partial<CurrentAccount>[]> => {
   const result = await prisma.currentAccount.findMany({
     include: {
-      user: true,
-      userBalance: true,
+      user: {
+        select: {
+          name: true,
+          email: true,
+          role: true,
+          createdAt: true,
+          id: true,
+        },
+      },
+      CurrentAccountBalance: true,
     },
   });
   return result;

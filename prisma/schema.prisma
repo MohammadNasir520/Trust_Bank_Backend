@@ -76,7 +76,7 @@ model Accounts {
 model CurrentAccount {
   id                 String      @id @unique @default(uuid())
   accountId          String
-  accountType        String
+  accountType        AccountType
   fName              String
   mName              String
   lName              String
@@ -108,36 +108,27 @@ model CurrentAccount {
   createdAt          DateTime    @default(now())
   userId             String
   user               User        @relation(fields: [userId], references: [id])
-  userBalanceId      String
-  userBalance        UserBalance @relation(fields: [userBalanceId], references: [id])
+
+  CurrentAccountBalance CurrentAccountBalance[]
 
   @@map("currentAcount")
 }
 
-model UserBalance {
-  id             String           @id @unique @default(uuid())
+model CurrentAccountBalance {
+  id             String         @id @unique @default(uuid())
   currency       String
   balance        Float
   accountId      String
-  userAccounts   Accounts         @relation(fields: [accountId], references: [id])
-  CurrentAccount CurrentAccount[]
+  currentAccount CurrentAccount @relation(fields: [accountId], references: [id])
 }
 
-// {
-//   id: 1,
-//   title: "Debit Card",
-//   description: "Debit Card",
-//   category: "Credit Card",
-//   image: "/assets/images/debit-card.png",
-//   cardImg: "/assets/images/debit-card.png",
-//   benefits: ["Get 10% cashback", "Welcome offer", "Get premium discount"],
-//   condition:[{
-//     age: 10,
-//     limit: 5000,
-//     offer: 10,        
-
-//   }]
-// },
+model UserBalance {
+  id           String   @id @unique @default(uuid())
+  currency     String
+  balance      Float
+  accountId    String
+  userAccounts Accounts @relation(fields: [accountId], references: [id])
+}
 
 model DebitCreditCard {
   id          String   @unique @default(uuid())
@@ -286,4 +277,11 @@ enum UserTransactionType {
   deposit
   withdraw
   currencyExchanges
+}
+
+enum AccountType {
+  Current
+  Saving
+  Student
+  Merchant
 }
