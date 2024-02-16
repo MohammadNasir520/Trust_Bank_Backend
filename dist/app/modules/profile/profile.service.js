@@ -24,7 +24,11 @@ const getByIdFromDB = async (user) => {
             id: user.userId,
         },
         include: {
-            accounts: true,
+            accounts: {
+                include: {
+                    userBalances: true,
+                },
+            },
         },
     });
     if (!result) {

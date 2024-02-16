@@ -44,6 +44,7 @@ const updateIntoDB = async (
   id: string,
   payload: Partial<AgricultureLoan>
 ): Promise<Partial<AgricultureLoan>> => {
+  console.log('agripayload', payload);
   const result = await prisma.agricultureLoan.update({
     where: {
       id: id,

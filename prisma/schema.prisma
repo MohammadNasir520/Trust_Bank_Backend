@@ -43,6 +43,7 @@ model User {
   card              Card[]
   currencyExchanges CurrencyExchange[]
   userTransactions  UserTransaction[]
+  currentAccount    CurrentAccount[]
 
   @@map("users")
 }
@@ -72,12 +73,54 @@ model Accounts {
   @@map("accounts")
 }
 
+model CurrentAccount {
+  id                 String      @id @unique @default(uuid())
+  accountId          String
+  accountType        String
+  fName              String
+  mName              String
+  lName              String
+  gender             String
+  blood              String
+  dob                String
+  photo              String
+  contactNo          String
+  emergencyContactNo String
+  tradLicenceNo      String
+  tinNumber          String
+  businessName       String
+  businessType       String
+  taxId              String
+  nidNumber          String
+  occupation         String
+  annualIncome       Float
+  poa                String
+  citizen            String
+  presentAddress     String
+  parmanentAddress   String
+  nominyName         String
+  relationship       String
+  nominyOccupation   String
+  nominyPhone        String
+  nominyNID          String
+  nominyAddress      String
+  nominyPhoto        String
+  createdAt          DateTime    @default(now())
+  userId             String
+  user               User        @relation(fields: [userId], references: [id])
+  userBalanceId      String
+  userBalance        UserBalance @relation(fields: [userBalanceId], references: [id])
+
+  @@map("currentAcount")
+}
+
 model UserBalance {
-  id           String   @id @unique @default(uuid())
-  currency     String
-  balance      Float
-  accountId    String
-  userAccounts Accounts @relation(fields: [accountId], references: [id])
+  id             String           @id @unique @default(uuid())
+  currency       String
+  balance        Float
+  accountId      String
+  userAccounts   Accounts         @relation(fields: [accountId], references: [id])
+  CurrentAccount CurrentAccount[]
 }
 
 // {
