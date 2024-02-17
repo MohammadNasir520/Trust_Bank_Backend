@@ -10,6 +10,7 @@ import { CorporateLoanRoutes } from '../modules/corporateLoan/corporateLoan.rout
 import { CurrencyExchangeRoutes } from '../modules/currencyExchange/currencyExchange.routes';
 import { CurrentAccountRoutes } from '../modules/currentAccount/currentAccount.routes';
 import { DebitCreditCardRoutes } from '../modules/debitCreditCard/debitCreditCard.routes';
+import { LoanSchemeRoutes } from '../modules/loanScheme/loanScheme.routes';
 import { PersonalLoanRoutes } from '../modules/personalLoan/personalLoan.routes';
 import { ProfileRoutes } from '../modules/profile/profile.routes';
 import { SendMoneyRoutes } from '../modules/sendMoney/sendMoney.routes';
@@ -72,6 +73,10 @@ const moduleRoutes = [
   {
     path: '/educationLoan',
     route: CorporateLoanRoutes,
+  },
+  {
+    path: '/loanScheme',
+    route: LoanSchemeRoutes,
   },
   {
     path: '/cards',

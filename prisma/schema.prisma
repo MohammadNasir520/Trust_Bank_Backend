@@ -235,6 +235,28 @@ model EducationLoan {
   status loanStatus @default(pending)
 }
 
+enum loan_scheme_category {
+  agriculture
+  corporate
+  education
+  personal
+}
+
+model LoanScheme {
+  id              String               @unique @default(uuid())
+  scheme_category loan_scheme_category
+  title           String
+  description     String?
+  amount          Int
+  purpose         Json?
+  eligibility     Json?
+  facility_types  Json?
+  amount_terms    Json?
+  interest_rates  Json?
+  repayment       Json?
+  security        Json?
+}
+
 model Card {
   id               String     @unique @default(uuid())
   country          String
