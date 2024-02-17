@@ -5,16 +5,59 @@ import { JwtPayload } from 'jsonwebtoken';
 import ApiError from '../../../errors/ApiError';
 import prisma from '../../../shared/prisma';
 
-const insertIntoDB = async (
-  data: UserBalance,
-  authUser: JwtPayload
-): Promise<UserBalance | undefined> => {
-  const bankAccount = await prisma.accounts.findFirst({
+const insertIntoDB = async (data: UserBalance, authUser: JwtPayload) => {
+  const bankAccount = await prisma.user.findFirst({
     where: {
-      userId: authUser.userId,
+      id: authUser.userId,
+    },
+    include: {
+      savingAccount: {
+        include: {
+          savingAccountBalances: true,
+        },
+      },
+      studentAccount: {
+        include: {
+          StudentAccountBalance: true,
+        },
+      },
+      merchentAccount: {
+        include: {
+          merchentAccountBalance: true,
+        },
+      },
+      currentAccount: {
+        include: {
+          CurrentAccountBalance: true,
+        },
+      },
     },
   });
 
+  let userBalance: any;
+
+  if (bankAccount?.merchentAccount) {
+    // eslint-disable-next-line no-unused-vars
+    userBalance = bankAccount.merchentAccount.merchentAccountBalance;
+    console.log('balance', bankAccount.merchentAccount.merchentAccountBalance);
+  }
+  if (bankAccount?.studentAccount) {
+    // eslint-disable-next-line no-unused-vars
+    userBalance = bankAccount.studentAccount.StudentAccountBalance;
+    console.log('balance', bankAccount.studentAccount.StudentAccountBalance);
+  }
+  if (bankAccount?.merchentAccount) {
+    // eslint-disable-next-line no-unused-vars
+    userBalance = bankAccount.merchentAccount.merchentAccountBalance;
+    console.log('balance', bankAccount.merchentAccount.merchentAccountBalance);
+  }
+  if (bankAccount?.merchentAccount) {
+    // eslint-disable-next-line no-unused-vars
+    userBalance = bankAccount.merchentAccount.merchentAccountBalance;
+    console.log('balance', bankAccount.merchentAccount.merchentAccountBalance);
+  }
+
+  return console.log('account', bankAccount);
   const accountId = bankAccount?.id;
 
   if (!accountId) {
@@ -41,6 +84,8 @@ const insertIntoDB = async (
         userAccounts: true,
       },
     });
+
+    //transaction record keeping
     const transaction = await prisma.userTransaction.create({
       data: {
         type: 'deposit',

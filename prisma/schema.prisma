@@ -43,16 +43,15 @@ model User {
   card              Card[]
   currencyExchanges CurrencyExchange[]
   userTransactions  UserTransaction[]
-  currentAccount    CurrentAccount[]
 
-  PersonalLoan      PersonalLoan[]
-  CorporateLoan     CorporateLoan[]
-  EducationLoan     EducationLoan[]
+  PersonalLoan  PersonalLoan[]
+  CorporateLoan CorporateLoan[]
+  EducationLoan EducationLoan[]
 
-  savingAccount     SavingAccount[]
-  studentAccount    StudentAccount[]
-  merchentAccount   MerchentAccount[]
-
+  currentAccount  CurrentAccount?
+  savingAccount   SavingAccount?
+  studentAccount  StudentAccount?
+  merchentAccount MerchentAccount?
 
   @@map("users")
 }
@@ -115,7 +114,7 @@ model CurrentAccount {
   nominyAddress      String
   nominyPhoto        String
   createdAt          DateTime    @default(now())
-  userId             String
+  userId             String      @unique
   user               User        @relation(fields: [userId], references: [id])
 
   CurrentAccountBalance CurrentAccountBalance[]
@@ -130,8 +129,6 @@ model CurrentAccountBalance {
   accountId      String
   currentAccount CurrentAccount @relation(fields: [accountId], references: [id])
 }
-
-// schema.prisma
 
 model SavingAccount {
   id                    String                 @id @unique @default(uuid())
@@ -162,7 +159,7 @@ model SavingAccount {
   nominyAddress         String
   nominyPhoto           String
   createdAt             DateTime               @default(now())
-  userId                String
+  userId                String                 @unique
   user                  User                   @relation(fields: [userId], references: [id])
   savingAccountBalances SavingAccountBalance[]
 }
@@ -209,7 +206,7 @@ model StudentAccount {
   nominyAddress          String
   nominyPhoto            String
   createdAt              DateTime                @default(now())
-  userId                 String
+  userId                 String                  @unique
   user                   User                    @relation(fields: [userId], references: [id])
   StudentAccountBalance  StudentAccountBalance[]
 }
@@ -235,7 +232,7 @@ model MerchentAccount {
   companyAddress         String
   companyPhoto           String
   createdAt              DateTime                 @default(now())
-  userId                 String
+  userId                 String                   @unique
   user                   User                     @relation(fields: [userId], references: [id])
   merchentAccountBalance MerchentAccountBalance[]
 }

@@ -53,7 +53,7 @@ const moduleRoutes = [
     route: AccountRoutes,
   },
   {
-    path: '/current-account',
+    path: '/current-accounts',
     route: CurrentAccountRoutes,
   },
   {
