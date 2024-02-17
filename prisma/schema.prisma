@@ -44,6 +44,9 @@ model User {
   currencyExchanges CurrencyExchange[]
   userTransactions  UserTransaction[]
   currentAccount    CurrentAccount[]
+  PersonalLoan      PersonalLoan[]
+  CorporateLoan     CorporateLoan[]
+  EducationLoan     EducationLoan[]
 
   @@map("users")
 }
@@ -192,6 +195,11 @@ model PersonalLoan {
   guarantorName    String
   guarantorPhone   String
   guarantorAddress String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  status loanStatus @default(pending)
 }
 
 // Corporate Loan : 
@@ -205,6 +213,10 @@ model CorporateLoan {
   guarantorName    String
   guarantorPhone   String
   guarantorAddress String
+
+  userId String
+  user   User       @relation(fields: [userId], references: [id])
+  status loanStatus @default(pending)
 }
 
 // Education loan
@@ -217,6 +229,10 @@ model EducationLoan {
   guarantorName    String
   guarantorPhone   String
   guarantorAddress String
+
+  userId String
+  user   User       @relation(fields: [userId], references: [id])
+  status loanStatus @default(pending)
 }
 
 model Card {

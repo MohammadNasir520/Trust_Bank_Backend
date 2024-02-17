@@ -6,9 +6,11 @@ import { AgricultureLoanRoutes } from '../modules/agricultureLoan/agricultureLoa
 import { BankBalanceRoutes } from '../modules/bankBalance/bankBalance.routes';
 import { BankProfileRoutes } from '../modules/bankProfile/bankProfile.routes';
 import { CardRoutes } from '../modules/card/card.routes';
+import { CorporateLoanRoutes } from '../modules/corporateLoan/corporateLoan.routes';
 import { CurrencyExchangeRoutes } from '../modules/currencyExchange/currencyExchange.routes';
 import { CurrentAccountRoutes } from '../modules/currentAccount/currentAccount.routes';
 import { DebitCreditCardRoutes } from '../modules/debitCreditCard/debitCreditCard.routes';
+import { PersonalLoanRoutes } from '../modules/personalLoan/personalLoan.routes';
 import { ProfileRoutes } from '../modules/profile/profile.routes';
 import { SendMoneyRoutes } from '../modules/sendMoney/sendMoney.routes';
 import { UserRoutes } from '../modules/user/user.routes';
@@ -58,6 +60,18 @@ const moduleRoutes = [
   {
     path: '/agricultureloan',
     route: AgricultureLoanRoutes,
+  },
+  {
+    path: '/personalLoan',
+    route: PersonalLoanRoutes,
+  },
+  {
+    path: '/corporateLoan',
+    route: CorporateLoanRoutes,
+  },
+  {
+    path: '/educationLoan',
+    route: CorporateLoanRoutes,
   },
   {
     path: '/cards',
