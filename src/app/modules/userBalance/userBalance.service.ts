@@ -34,31 +34,33 @@ const insertIntoDB = async (data: UserBalance, authUser: JwtPayload) => {
     },
   });
 
-  let userBalance: any;
-
+  let account: any;
+  let accountBalances: any;
   if (bankAccount?.merchentAccount) {
     // eslint-disable-next-line no-unused-vars
-    userBalance = bankAccount.merchentAccount.merchentAccountBalance;
-    console.log('balance', bankAccount.merchentAccount.merchentAccountBalance);
+    account = bankAccount.merchentAccount;
+    accountBalances = bankAccount.merchentAccount.merchentAccountBalance;
   }
   if (bankAccount?.studentAccount) {
+    account = bankAccount.studentAccount;
     // eslint-disable-next-line no-unused-vars
-    userBalance = bankAccount.studentAccount.StudentAccountBalance;
-    console.log('balance', bankAccount.studentAccount.StudentAccountBalance);
+    accountBalances = bankAccount.studentAccount.StudentAccountBalance;
   }
-  if (bankAccount?.merchentAccount) {
+  if (bankAccount?.currentAccount) {
+    account = bankAccount.currentAccount;
     // eslint-disable-next-line no-unused-vars
-    userBalance = bankAccount.merchentAccount.merchentAccountBalance;
-    console.log('balance', bankAccount.merchentAccount.merchentAccountBalance);
+    accountBalances = bankAccount.currentAccount.CurrentAccountBalance;
   }
-  if (bankAccount?.merchentAccount) {
+  if (bankAccount?.savingAccount) {
+    account = bankAccount.savingAccount;
     // eslint-disable-next-line no-unused-vars
-    userBalance = bankAccount.merchentAccount.merchentAccountBalance;
-    console.log('balance', bankAccount.merchentAccount.merchentAccountBalance);
+    accountBalances = bankAccount.savingAccount.savingAccountBalances;
   }
 
-  return console.log('account', bankAccount);
-  const accountId = bankAccount?.id;
+
+
+
+  const accountId = account?.id;
 
   if (!accountId) {
     throw new ApiError(
@@ -77,24 +79,15 @@ const insertIntoDB = async (data: UserBalance, authUser: JwtPayload) => {
   });
 
   let result;
+  data.accountId = accountId
+
   if (!findExistBalance) {
     result = await prisma.userBalance.create({
       data,
-      include: {
-        userAccounts: true,
-      },
+      // include: {
+      //   userAccounts: true,
+      // },
     });
-
-    //transaction record keeping
-    const transaction = await prisma.userTransaction.create({
-      data: {
-        type: 'deposit',
-        amount: data.balance,
-        userId: authUser.userId,
-        currency: data.currency,
-      },
-    });
-    console.log('tran 1', transaction);
   } else if (findExistBalance) {
     const newBalance = data.balance + findExistBalance.balance;
     result = await prisma.userBalance.update({
@@ -106,12 +99,12 @@ const insertIntoDB = async (data: UserBalance, authUser: JwtPayload) => {
       data: {
         balance: newBalance,
       },
-      include: {
-        userAccounts: true,
-      },
+      // include: {
+      //   userAccounts: true,
+      // },
     });
   }
-  const transaction = await prisma.userTransaction.create({
+  await prisma.userTransaction.create({
     data: {
       type: 'deposit',
       amount: data.balance,
@@ -119,20 +112,79 @@ const insertIntoDB = async (data: UserBalance, authUser: JwtPayload) => {
       currency: data.currency,
     },
   });
-  console.log('tran 2', transaction);
+
+  await prisma.bankBalance.updateMany({
+    where: {
+      currency: data.currency
+    },
+    data: {
+      balance: {
+        increment: data.balance
+      }
+    }
+  });
+
   return result;
 };
 const userWithdraw = async (
   data: UserBalance,
   authUser: JwtPayload
 ): Promise<UserBalance | undefined> => {
-  const bankAccount = await prisma.accounts.findFirst({
+  const bankAccount = await prisma.user.findFirst({
     where: {
-      userId: authUser.userId,
+      id: authUser.userId,
+    },
+    include: {
+      savingAccount: {
+        include: {
+          savingAccountBalances: true,
+        },
+      },
+      studentAccount: {
+        include: {
+          StudentAccountBalance: true,
+        },
+      },
+      merchentAccount: {
+        include: {
+          merchentAccountBalance: true,
+        },
+      },
+      currentAccount: {
+        include: {
+          CurrentAccountBalance: true,
+        },
+      },
     },
   });
 
-  const accountId = bankAccount?.id;
+  let account: any;
+  let accountBalances: any;
+  if (bankAccount?.merchentAccount) {
+    // eslint-disable-next-line no-unused-vars
+    account = bankAccount.merchentAccount;
+    accountBalances = bankAccount.merchentAccount.merchentAccountBalance;
+  }
+  if (bankAccount?.studentAccount) {
+    account = bankAccount.studentAccount;
+    // eslint-disable-next-line no-unused-vars
+    accountBalances = bankAccount.studentAccount.StudentAccountBalance;
+  }
+  if (bankAccount?.currentAccount) {
+    account = bankAccount.currentAccount;
+    // eslint-disable-next-line no-unused-vars
+    accountBalances = bankAccount.currentAccount.CurrentAccountBalance;
+  }
+  if (bankAccount?.savingAccount) {
+    account = bankAccount.savingAccount;
+    // eslint-disable-next-line no-unused-vars
+    accountBalances = bankAccount.savingAccount.savingAccountBalances;
+  }
+
+
+
+
+  const accountId = account?.id;
 
   if (!accountId) {
     throw new ApiError(
@@ -151,14 +203,18 @@ const userWithdraw = async (
   });
 
   let result;
+  data.accountId = accountId
 
-  if (findExistBalance) {
-    if (data.balance > findExistBalance.balance) {
+  if (!findExistBalance) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Please deposit to your account'
+    );
+  } else if (findExistBalance) {
+    if (findExistBalance?.balance < data.balance) {
       throw new ApiError(
         httpStatus.BAD_REQUEST,
-        `you have not enough balance. you exceeds ${
-          data.balance - findExistBalance.balance
-        } ${findExistBalance.currency}`
+        'You have insufficient balance!'
       );
     }
     const newBalance = findExistBalance.balance - data.balance;
@@ -171,17 +227,29 @@ const userWithdraw = async (
       data: {
         balance: newBalance,
       },
+      // include: {
+      //   userAccounts: true,
+      // },
     });
   }
-  const userTransaction = await prisma.userTransaction.create({
+  await prisma.userTransaction.create({
     data: {
-      type: 'withdraw',
+      type: 'deposit',
       amount: data.balance,
       userId: authUser.userId,
       currency: data.currency,
     },
   });
-  console.log('tran withdraw', userTransaction);
+  await prisma.bankBalance.updateMany({
+    where: {
+      currency: data.currency
+    },
+    data: {
+      balance: {
+        decrement: data.balance
+      }
+    }
+  });
   return result;
 };
 

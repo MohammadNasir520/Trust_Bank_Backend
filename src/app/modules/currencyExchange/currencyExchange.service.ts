@@ -1,17 +1,77 @@
 import { CurrencyExchange } from '@prisma/client';
 
+import httpStatus from 'http-status';
 import { JwtPayload } from 'jsonwebtoken';
+import ApiError from '../../../errors/ApiError';
 import prisma from '../../../shared/prisma';
 
 const insertIntoDB = async (data: CurrencyExchange, authUser: JwtPayload) => {
-  const findUser = await prisma.accounts.findFirst({
+  const bankAccount = await prisma.user.findFirst({
     where: {
-      userId: authUser.userId,
+      id: authUser.userId,
+    },
+    include: {
+      savingAccount: {
+        include: {
+          savingAccountBalances: true,
+        },
+      },
+      studentAccount: {
+        include: {
+          StudentAccountBalance: true,
+        },
+      },
+      merchentAccount: {
+        include: {
+          merchentAccountBalance: true,
+        },
+      },
+      currentAccount: {
+        include: {
+          CurrentAccountBalance: true,
+        },
+      },
     },
   });
-  const accountId = findUser?.id;
+  let account: any;
+  let accountBalances: any;
+  if (bankAccount?.merchentAccount) {
+    // eslint-disable-next-line no-unused-vars
+    account = bankAccount.merchentAccount;
+    accountBalances = bankAccount.merchentAccount.merchentAccountBalance;
+  }
+  if (bankAccount?.studentAccount) {
+    account = bankAccount.studentAccount;
+    // eslint-disable-next-line no-unused-vars
+    accountBalances = bankAccount.studentAccount.StudentAccountBalance;
+  }
+  if (bankAccount?.currentAccount) {
+    account = bankAccount.currentAccount;
+    // eslint-disable-next-line no-unused-vars
+    accountBalances = bankAccount.currentAccount.CurrentAccountBalance;
+  }
+  if (bankAccount?.savingAccount) {
+    account = bankAccount.savingAccount;
+    // eslint-disable-next-line no-unused-vars
+    accountBalances = bankAccount.savingAccount.savingAccountBalances;
+  }
 
-  const findUserBalance = await prisma.userBalance.findFirst({
+  const accountId = account?.id;
+
+  if (!accountId) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'you have no account, please create account first'
+    );
+  }
+  const findUserFromBalance = await prisma.userBalance.findFirst({
+    where: {
+      accountId: accountId,
+      currency: data.toCurrency,
+    },
+  });
+
+  const findUserToBalance = await prisma.userBalance.findFirst({
     where: {
       accountId: accountId,
       currency: data.toCurrency,
@@ -19,21 +79,36 @@ const insertIntoDB = async (data: CurrencyExchange, authUser: JwtPayload) => {
   });
 
   let result;
-  if (!findUserBalance?.id) {
+  data.userId = accountId
+  if (!findUserToBalance?.id && findUserFromBalance) {
     result = await prisma.userBalance.create({
       data: {
         balance: data.toAmount,
         currency: data.toCurrency,
-        userAccounts: {
-          connect: { id: accountId },
-        },
+        accountId
       },
     });
-  } else if (findUserBalance?.id) {
-    const newBalance = findUserBalance.balance + data.toAmount;
+
+    if (findUserFromBalance) {
+      await prisma.userBalance.updateMany({
+        where: {
+          currency: data.fromCurrency,
+        },
+        data: {
+          balance: {
+            decrement: data.fromAmount
+          },
+        },
+      })
+    }
+  }
+
+
+  else if (findUserToBalance?.id) {
+    const newBalance = findUserToBalance.balance + data.toAmount;
     result = await prisma.userBalance.update({
       where: {
-        id: findUserBalance.id,
+        id: findUserToBalance.id,
         accountId: accountId,
         currency: data.toCurrency,
       },
@@ -42,32 +117,18 @@ const insertIntoDB = async (data: CurrencyExchange, authUser: JwtPayload) => {
       },
     });
 
-    // eslint-disable-next-line no-unused-vars
-    // const newBankBalance = findUserBalance.balance - data.fromAmount;
 
-    // eslint-disable-next-line no-unused-vars
-    const bankBalanceResult = await prisma.bankBalance.findFirst({
+    await prisma.userBalance.updateMany({
       where: {
         currency: data.fromCurrency,
       },
-    });
-
-    if (bankBalanceResult) {
-      const newBalance = bankBalanceResult.balance + data.fromAmount;
-      // console.log(bankBalanceResult.balance - data.fromAmount);
-      // eslint-disable-next-line no-unused-vars
-      const updateBankBalanceResult = await prisma.bankBalance.update({
-        where: {
-          id: bankBalanceResult.id,
-          currency: data.fromCurrency,
+      data: {
+        balance: {
+          decrement: data.fromAmount
         },
-        data: {
-          balance: newBalance,
-        },
-      });
-    }
+      },
+    })
   }
-
   return result;
 };
 

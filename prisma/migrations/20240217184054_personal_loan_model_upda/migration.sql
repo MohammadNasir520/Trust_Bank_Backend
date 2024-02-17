@@ -412,10 +412,16 @@ CREATE UNIQUE INDEX "accounts_accountId_key" ON "accounts"("accountId");
 CREATE UNIQUE INDEX "currentAcount_id_key" ON "currentAcount"("id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "currentAcount_userId_key" ON "currentAcount"("userId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "CurrentAccountBalance_id_key" ON "CurrentAccountBalance"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "SavingAccount_id_key" ON "SavingAccount"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "SavingAccount_userId_key" ON "SavingAccount"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "SavingAccountBalance_id_key" ON "SavingAccountBalance"("id");
@@ -424,10 +430,16 @@ CREATE UNIQUE INDEX "SavingAccountBalance_id_key" ON "SavingAccountBalance"("id"
 CREATE UNIQUE INDEX "StudentAccount_id_key" ON "StudentAccount"("id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "StudentAccount_userId_key" ON "StudentAccount"("userId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "StudentAccountBalance_id_key" ON "StudentAccountBalance"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "MerchentAccount_id_key" ON "MerchentAccount"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "MerchentAccount_userId_key" ON "MerchentAccount"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "MerchentAccountBalance_id_key" ON "MerchentAccountBalance"("id");

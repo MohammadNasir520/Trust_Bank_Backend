@@ -23,7 +23,7 @@ model BankProfile {
 
 model BankBalance {
   id       String @id @default(uuid())
-  currency String
+  currency String @unique
   balance  Float
 
   bankProfileId String
@@ -52,6 +52,7 @@ model User {
   savingAccount   SavingAccount?
   studentAccount  StudentAccount?
   merchentAccount MerchentAccount?
+  UserBalance     UserBalance[]
 
   @@map("users")
 }
@@ -64,8 +65,8 @@ enum UserRole {
 }
 
 model Accounts {
-  id           String        @unique @default(uuid())
-  accountId    String        @unique
+  id           String   @unique @default(uuid())
+  accountId    String   @unique
   contactNo    String
   profession   String
   age          Int
@@ -74,9 +75,8 @@ model Accounts {
   accountType  String
   citizenShip  String
   userId       String
-  user         User          @relation(fields: [userId], references: [id])
-  createdAt    DateTime      @default(now())
-  userBalances UserBalance[]
+  user         User     @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now())
 
   @@map("accounts")
 }
@@ -246,11 +246,13 @@ model MerchentAccountBalance {
 }
 
 model UserBalance {
-  id           String   @id @unique @default(uuid())
-  currency     String
-  balance      Float
-  accountId    String
-  userAccounts Accounts @relation(fields: [accountId], references: [id])
+  id        String @id @unique @default(uuid())
+  currency  String
+  balance   Float
+  accountId String
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
 }
 
 model DebitCreditCard {

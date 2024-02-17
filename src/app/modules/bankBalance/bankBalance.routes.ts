@@ -14,7 +14,7 @@ router.post(
   //   ENUM_USER_ROLE.CLIENT,
   //   ENUM_USER_ROLE.SUPER_ADMIN
   // ),
-  validateRequest(BankBalanceValidation.CreateZodSchema),
+  // validateRequest(BankBalanceValidation.CreateZodSchema),
   BankBalanceController.insertIntoDB
 );
 
