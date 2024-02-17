@@ -44,6 +44,7 @@ model User {
   currencyExchanges CurrencyExchange[]
   userTransactions  UserTransaction[]
   currentAccount    CurrentAccount[]
+  payBill PayBill[]
 
   @@map("users")
 }
@@ -286,4 +287,29 @@ enum UserTransactionType {
   deposit
   withdraw
   currencyExchanges
+}
+
+model Provider{
+  providerAccount String @id @unique @default(uuid())
+  service String
+  providerName String @unique
+  image String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("providers")
+}
+
+model PayBill{
+  id String @id @unique @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  providerName String 
+  billNo String
+  providerAccount String
+  amount Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("paybills")
 }

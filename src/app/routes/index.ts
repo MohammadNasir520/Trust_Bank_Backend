@@ -10,6 +10,7 @@ import { CurrencyExchangeRoutes } from '../modules/currencyExchange/currencyExch
 import { CurrentAccountRoutes } from '../modules/currentAccount/currentAccount.routes';
 import { DebitCreditCardRoutes } from '../modules/debitCreditCard/debitCreditCard.routes';
 import { ProfileRoutes } from '../modules/profile/profile.routes';
+import { ProviderRoutes } from '../modules/provider/provider.route';
 import { SendMoneyRoutes } from '../modules/sendMoney/sendMoney.routes';
 import { UserRoutes } from '../modules/user/user.routes';
 import { UserBalanceRoutes } from '../modules/userBalance/userBalance.routes';
@@ -74,6 +75,10 @@ const moduleRoutes = [
   {
     path: '/transactions',
     route: UserTransactionRoutes,
+  },
+  {
+    path: '/providers',
+    route: ProviderRoutes,
   },
 ];
 
