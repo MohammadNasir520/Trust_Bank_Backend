@@ -11,6 +11,7 @@ const bankBalance_routes_1 = require("../modules/bankBalance/bankBalance.routes"
 const bankProfile_routes_1 = require("../modules/bankProfile/bankProfile.routes");
 const card_routes_1 = require("../modules/card/card.routes");
 const currencyExchange_routes_1 = require("../modules/currencyExchange/currencyExchange.routes");
+const currentAccount_routes_1 = require("../modules/currentAccount/currentAccount.routes");
 const debitCreditCard_routes_1 = require("../modules/debitCreditCard/debitCreditCard.routes");
 const profile_routes_1 = require("../modules/profile/profile.routes");
 const sendMoney_routes_1 = require("../modules/sendMoney/sendMoney.routes");
@@ -43,6 +44,10 @@ const moduleRoutes = [
     {
         path: '/accounts',
         route: account_routes_1.AccountRoutes,
+    },
+    {
+        path: '/current-account',
+        route: currentAccount_routes_1.CurrentAccountRoutes,
     },
     {
         path: '/userbalances',

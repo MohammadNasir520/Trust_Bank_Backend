@@ -36,6 +36,7 @@ const getByIdFromDB = async (id) => {
     return result;
 };
 const updateIntoDB = async (id, payload) => {
+    console.log('agripayload', payload);
     const result = await prisma_1.default.agricultureLoan.update({
         where: {
             id: id,

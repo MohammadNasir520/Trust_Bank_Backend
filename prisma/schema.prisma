@@ -44,6 +44,9 @@ model User {
   currencyExchanges CurrencyExchange[]
   userTransactions  UserTransaction[]
   currentAccount    CurrentAccount[]
+  savingAccount     SavingAccount[]
+  studentAccount    StudentAccount[]
+  merchentAccount   MerchentAccount[]
 
   @@map("users")
 }
@@ -120,6 +123,123 @@ model CurrentAccountBalance {
   balance        Float
   accountId      String
   currentAccount CurrentAccount @relation(fields: [accountId], references: [id])
+}
+
+// schema.prisma
+
+model SavingAccount {
+  id                    String                 @id @unique @default(uuid())
+  fName                 String
+  mName                 String
+  lName                 String
+  accountId             String
+  accountType           AccountType
+  gender                String
+  blood                 String
+  dob                   String
+  photo                 String
+  contactNo             String
+  emergencyContactNo    String
+  companyName           String
+  companyLocation       String
+  companyContact        String
+  employeeId            String
+  nidNumber             String
+  citizen               String
+  presentAddress        String
+  permanentAddress      String
+  nominyName            String
+  relationship          String
+  nominyOccupation      String
+  nominyPhone           String
+  nominyNID             String
+  nominyAddress         String
+  nominyPhoto           String
+  createdAt             DateTime               @default(now())
+  userId                String
+  user                  User                   @relation(fields: [userId], references: [id])
+  savingAccountBalances SavingAccountBalance[]
+}
+
+model SavingAccountBalance {
+  id            String        @id @unique @default(uuid())
+  currency      String
+  balance       Float
+  accountId     String
+  savingAccount SavingAccount @relation(fields: [accountId], references: [id])
+}
+
+model StudentAccount {
+  id                     String                  @id @unique @default(uuid())
+  fName                  String
+  mName                  String
+  lName                  String
+  accountId              String
+  accountType            AccountType
+  gender                 String
+  blood                  String
+  dob                    String
+  photo                  String
+  contactNo              String
+  emergencyContactNo     String
+  institutionName        String
+  institutionType        String
+  institutionLocation    String
+  institutionContact     String
+  studentId              String
+  birthCertificateNumber String
+  localGuargianName      String
+  localGuargianNid       String
+  localGuargianContact   String
+  localGuargianAddress   String
+  citizen                String
+  presentAddress         String
+  permanentAddress       String
+  nominyName             String
+  relationship           String
+  nominyOccupation       String
+  nominyPhone            String
+  nominyNID              String
+  nominyAddress          String
+  nominyPhoto            String
+  createdAt              DateTime                @default(now())
+  userId                 String
+  user                   User                    @relation(fields: [userId], references: [id])
+  StudentAccountBalance  StudentAccountBalance[]
+}
+
+model StudentAccountBalance {
+  id             String         @id @unique @default(uuid())
+  currency       String
+  balance        Float
+  accountId      String
+  studentAccount StudentAccount @relation(fields: [accountId], references: [id])
+}
+
+model MerchentAccount {
+  id                     String                   @id @unique @default(uuid())
+  accountId              String
+  accountType            AccountType
+  companyName            String
+  companyType            String
+  contactNo              String
+  tradLicenceNo          String
+  tinNumber              String
+  taxId                  String
+  companyAddress         String
+  companyPhoto           String
+  createdAt              DateTime                 @default(now())
+  userId                 String
+  user                   User                     @relation(fields: [userId], references: [id])
+  merchentAccountBalance MerchentAccountBalance[]
+}
+
+model MerchentAccountBalance {
+  id              String          @id @unique @default(uuid())
+  currency        String
+  balance         Float
+  accountId       String
+  MerchentAccount MerchentAccount @relation(fields: [accountId], references: [id])
 }
 
 model UserBalance {
