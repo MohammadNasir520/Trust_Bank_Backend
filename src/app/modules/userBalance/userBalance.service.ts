@@ -234,7 +234,7 @@ const userWithdraw = async (
   }
   await prisma.userTransaction.create({
     data: {
-      type: 'deposit',
+      type: 'withdraw',
       amount: data.balance,
       userId: authUser.userId,
       currency: data.currency,
