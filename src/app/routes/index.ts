@@ -9,6 +9,7 @@ import { CardRoutes } from '../modules/card/card.routes';
 import { CurrencyExchangeRoutes } from '../modules/currencyExchange/currencyExchange.routes';
 import { CurrentAccountRoutes } from '../modules/currentAccount/currentAccount.routes';
 import { DebitCreditCardRoutes } from '../modules/debitCreditCard/debitCreditCard.routes';
+import { PayBillRoutes } from '../modules/payBill/payBill.route';
 import { ProfileRoutes } from '../modules/profile/profile.routes';
 import { ProviderRoutes } from '../modules/provider/provider.route';
 import { SendMoneyRoutes } from '../modules/sendMoney/sendMoney.routes';
@@ -79,6 +80,10 @@ const moduleRoutes = [
   {
     path: '/providers',
     route: ProviderRoutes,
+  },
+  {
+    path: '/paybills',
+    route: PayBillRoutes,
   },
 ];
 

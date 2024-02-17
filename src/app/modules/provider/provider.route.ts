@@ -1,15 +1,11 @@
 import express from 'express';
+import auth from '../../middlewares/auth';
 import { ProviderController } from './provider.controller';
 
 const router = express.Router();
 
-router.post(
-  '/',
-  //   auth(ENUM_USER_ROLE.CLIENT, ENUM_USER_ROLE.MANAGER),
-  // validateRequest(AccountValidation.CreateZodSchema),
-  ProviderController.insertProviderIntoDB
-);
+router.post('/', auth(), ProviderController.insertProviderIntoDB);
 
-router.get('/', ProviderController.getProvidersFrom);
+router.get('/', auth(), ProviderController.getProvidersFrom);
 
 export const ProviderRoutes = router;

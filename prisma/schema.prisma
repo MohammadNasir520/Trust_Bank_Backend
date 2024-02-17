@@ -297,19 +297,24 @@ model Provider{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  payBill PayBill[]
+
   @@map("providers")
 }
 
-model PayBill{
-  id String @id @unique @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  providerName String 
-  billNo String
+model PayBill {
+  id              String    @id @default(uuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
+  providerName    String
+  billNo          String
   providerAccount String
-  amount Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  provider Provider @relation(fields: [providerAccount], references: [providerAccount])
+  amount          Int
+  billingDate     DateTime @default(now())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   @@map("paybills")
 }
+

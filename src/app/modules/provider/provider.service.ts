@@ -16,15 +16,6 @@ const getProvidersFromDB = async (): Promise<Partial<Provider>[]> => {
   return result;
 };
 
-// const getByIdFromDB = async (id: string): Promise<Partial<Accounts | null>> => {
-//   const result = await prisma.accounts.findUnique({
-//     where: {
-//       id: id,
-//     },
-//   });
-//   return result;
-// };
-
 export const ProviderServices = {
   insertProviderIntoDB,
   getProvidersFromDB,

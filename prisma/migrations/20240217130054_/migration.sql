@@ -255,6 +255,7 @@ CREATE TABLE "paybills" (
     "billNo" TEXT NOT NULL,
     "providerAccount" TEXT NOT NULL,
     "amount" INTEGER NOT NULL,
+    "billingDate" TIMESTAMP(3) NOT NULL DEFAULT (now() at time zone 'utc')::date,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -316,7 +317,7 @@ CREATE UNIQUE INDEX "providers_providerAccount_key" ON "providers"("providerAcco
 CREATE UNIQUE INDEX "providers_providerName_key" ON "providers"("providerName");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "paybills_id_key" ON "paybills"("id");
+CREATE UNIQUE INDEX "paybills_billingDate_key" ON "paybills"("billingDate");
 
 -- AddForeignKey
 ALTER TABLE "BankBalance" ADD CONSTRAINT "BankBalance_bankProfileId_fkey" FOREIGN KEY ("bankProfileId") REFERENCES "BankProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -350,3 +351,6 @@ ALTER TABLE "UserTransaction" ADD CONSTRAINT "UserTransaction_userId_fkey" FOREI
 
 -- AddForeignKey
 ALTER TABLE "paybills" ADD CONSTRAINT "paybills_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "paybills" ADD CONSTRAINT "paybills_providerAccount_fkey" FOREIGN KEY ("providerAccount") REFERENCES "providers"("providerAccount") ON DELETE RESTRICT ON UPDATE CASCADE;
