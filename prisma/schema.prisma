@@ -44,9 +44,15 @@ model User {
   currencyExchanges CurrencyExchange[]
   userTransactions  UserTransaction[]
   currentAccount    CurrentAccount[]
+
+  PersonalLoan      PersonalLoan[]
+  CorporateLoan     CorporateLoan[]
+  EducationLoan     EducationLoan[]
+
   savingAccount     SavingAccount[]
   studentAccount    StudentAccount[]
   merchentAccount   MerchentAccount[]
+
 
   @@map("users")
 }
@@ -303,6 +309,11 @@ model PersonalLoan {
   guarantorName    String
   guarantorPhone   String
   guarantorAddress String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  status loanStatus @default(pending)
 }
 
 // Corporate Loan : 
@@ -316,6 +327,10 @@ model CorporateLoan {
   guarantorName    String
   guarantorPhone   String
   guarantorAddress String
+
+  userId String
+  user   User       @relation(fields: [userId], references: [id])
+  status loanStatus @default(pending)
 }
 
 // Education loan
@@ -328,6 +343,32 @@ model EducationLoan {
   guarantorName    String
   guarantorPhone   String
   guarantorAddress String
+
+  userId String
+  user   User       @relation(fields: [userId], references: [id])
+  status loanStatus @default(pending)
+}
+
+enum loan_scheme_category {
+  agriculture
+  corporate
+  education
+  personal
+}
+
+model LoanScheme {
+  id              String               @unique @default(uuid())
+  scheme_category loan_scheme_category
+  title           String
+  description     String?
+  amount          Int
+  purpose         Json?
+  eligibility     Json?
+  facility_types  Json?
+  amount_terms    Json?
+  interest_rates  Json?
+  repayment       Json?
+  security        Json?
 }
 
 model Card {
