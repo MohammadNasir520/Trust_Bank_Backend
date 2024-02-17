@@ -34,6 +34,7 @@ const getAllFromDB = async (): Promise<Partial<User>[]> => {
           userBalances: true,
         },
       },
+      currentAccount: true,
     },
   });
   return result;
@@ -54,6 +55,7 @@ const getByIdFromDB = async (id: string): Promise<Partial<User | null>> => {
           userBalances: true,
         },
       },
+      currentAccount: true,
     },
   });
   return result;
