@@ -37,6 +37,7 @@ const getAllFromDB = async () => {
                     userBalances: true,
                 },
             },
+            currentAccount: true,
         },
     });
     return result;
@@ -56,6 +57,7 @@ const getByIdFromDB = async (id) => {
                     userBalances: true,
                 },
             },
+            currentAccount: true,
         },
     });
     return result;

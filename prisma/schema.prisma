@@ -45,6 +45,15 @@ model User {
   userTransactions  UserTransaction[]
   currentAccount    CurrentAccount[]
 
+  PersonalLoan      PersonalLoan[]
+  CorporateLoan     CorporateLoan[]
+  EducationLoan     EducationLoan[]
+
+  savingAccount     SavingAccount[]
+  studentAccount    StudentAccount[]
+  merchentAccount   MerchentAccount[]
+
+
   @@map("users")
 }
 
@@ -76,7 +85,7 @@ model Accounts {
 model CurrentAccount {
   id                 String      @id @unique @default(uuid())
   accountId          String
-  accountType        String
+  accountType        AccountType
   fName              String
   mName              String
   lName              String
@@ -108,36 +117,144 @@ model CurrentAccount {
   createdAt          DateTime    @default(now())
   userId             String
   user               User        @relation(fields: [userId], references: [id])
-  userBalanceId      String
-  userBalance        UserBalance @relation(fields: [userBalanceId], references: [id])
+
+  CurrentAccountBalance CurrentAccountBalance[]
 
   @@map("currentAcount")
 }
 
-model UserBalance {
-  id             String           @id @unique @default(uuid())
+model CurrentAccountBalance {
+  id             String         @id @unique @default(uuid())
   currency       String
   balance        Float
   accountId      String
-  userAccounts   Accounts         @relation(fields: [accountId], references: [id])
-  CurrentAccount CurrentAccount[]
+  currentAccount CurrentAccount @relation(fields: [accountId], references: [id])
 }
 
-// {
-//   id: 1,
-//   title: "Debit Card",
-//   description: "Debit Card",
-//   category: "Credit Card",
-//   image: "/assets/images/debit-card.png",
-//   cardImg: "/assets/images/debit-card.png",
-//   benefits: ["Get 10% cashback", "Welcome offer", "Get premium discount"],
-//   condition:[{
-//     age: 10,
-//     limit: 5000,
-//     offer: 10,        
+// schema.prisma
 
-//   }]
-// },
+model SavingAccount {
+  id                    String                 @id @unique @default(uuid())
+  fName                 String
+  mName                 String
+  lName                 String
+  accountId             String
+  accountType           AccountType
+  gender                String
+  blood                 String
+  dob                   String
+  photo                 String
+  contactNo             String
+  emergencyContactNo    String
+  companyName           String
+  companyLocation       String
+  companyContact        String
+  employeeId            String
+  nidNumber             String
+  citizen               String
+  presentAddress        String
+  permanentAddress      String
+  nominyName            String
+  relationship          String
+  nominyOccupation      String
+  nominyPhone           String
+  nominyNID             String
+  nominyAddress         String
+  nominyPhoto           String
+  createdAt             DateTime               @default(now())
+  userId                String
+  user                  User                   @relation(fields: [userId], references: [id])
+  savingAccountBalances SavingAccountBalance[]
+}
+
+model SavingAccountBalance {
+  id            String        @id @unique @default(uuid())
+  currency      String
+  balance       Float
+  accountId     String
+  savingAccount SavingAccount @relation(fields: [accountId], references: [id])
+}
+
+model StudentAccount {
+  id                     String                  @id @unique @default(uuid())
+  fName                  String
+  mName                  String
+  lName                  String
+  accountId              String
+  accountType            AccountType
+  gender                 String
+  blood                  String
+  dob                    String
+  photo                  String
+  contactNo              String
+  emergencyContactNo     String
+  institutionName        String
+  institutionType        String
+  institutionLocation    String
+  institutionContact     String
+  studentId              String
+  birthCertificateNumber String
+  localGuargianName      String
+  localGuargianNid       String
+  localGuargianContact   String
+  localGuargianAddress   String
+  citizen                String
+  presentAddress         String
+  permanentAddress       String
+  nominyName             String
+  relationship           String
+  nominyOccupation       String
+  nominyPhone            String
+  nominyNID              String
+  nominyAddress          String
+  nominyPhoto            String
+  createdAt              DateTime                @default(now())
+  userId                 String
+  user                   User                    @relation(fields: [userId], references: [id])
+  StudentAccountBalance  StudentAccountBalance[]
+}
+
+model StudentAccountBalance {
+  id             String         @id @unique @default(uuid())
+  currency       String
+  balance        Float
+  accountId      String
+  studentAccount StudentAccount @relation(fields: [accountId], references: [id])
+}
+
+model MerchentAccount {
+  id                     String                   @id @unique @default(uuid())
+  accountId              String
+  accountType            AccountType
+  companyName            String
+  companyType            String
+  contactNo              String
+  tradLicenceNo          String
+  tinNumber              String
+  taxId                  String
+  companyAddress         String
+  companyPhoto           String
+  createdAt              DateTime                 @default(now())
+  userId                 String
+  user                   User                     @relation(fields: [userId], references: [id])
+  merchentAccountBalance MerchentAccountBalance[]
+}
+
+model MerchentAccountBalance {
+  id              String          @id @unique @default(uuid())
+  currency        String
+  balance         Float
+  accountId       String
+  MerchentAccount MerchentAccount @relation(fields: [accountId], references: [id])
+}
+
+model UserBalance {
+  id           String   @id @unique @default(uuid())
+  currency     String
+  balance      Float
+  accountId    String
+  userAccounts Accounts @relation(fields: [accountId], references: [id])
+}
 
 model DebitCreditCard {
   id          String   @unique @default(uuid())
@@ -192,6 +309,11 @@ model PersonalLoan {
   guarantorName    String
   guarantorPhone   String
   guarantorAddress String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  status loanStatus @default(pending)
 }
 
 // Corporate Loan : 
@@ -205,6 +327,10 @@ model CorporateLoan {
   guarantorName    String
   guarantorPhone   String
   guarantorAddress String
+
+  userId String
+  user   User       @relation(fields: [userId], references: [id])
+  status loanStatus @default(pending)
 }
 
 // Education loan
@@ -217,6 +343,32 @@ model EducationLoan {
   guarantorName    String
   guarantorPhone   String
   guarantorAddress String
+
+  userId String
+  user   User       @relation(fields: [userId], references: [id])
+  status loanStatus @default(pending)
+}
+
+enum loan_scheme_category {
+  agriculture
+  corporate
+  education
+  personal
+}
+
+model LoanScheme {
+  id              String               @unique @default(uuid())
+  scheme_category loan_scheme_category
+  title           String
+  description     String?
+  amount          Int
+  purpose         Json?
+  eligibility     Json?
+  facility_types  Json?
+  amount_terms    Json?
+  interest_rates  Json?
+  repayment       Json?
+  security        Json?
 }
 
 model Card {
@@ -286,4 +438,11 @@ enum UserTransactionType {
   deposit
   withdraw
   currencyExchanges
+}
+
+enum AccountType {
+  Current
+  Saving
+  Student
+  Merchant
 }

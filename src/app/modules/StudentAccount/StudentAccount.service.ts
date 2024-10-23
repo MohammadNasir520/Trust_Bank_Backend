@@ -1,16 +1,16 @@
-import { CurrentAccount } from '@prisma/client';
+import { StudentAccount } from '@prisma/client';
 
 import httpStatus from 'http-status';
 import { JwtPayload } from 'jsonwebtoken';
 import ApiError from '../../../errors/ApiError';
 import prisma from '../../../shared/prisma';
 import { sendEMail } from '../../../utils/sendMail';
-import { createNewIdNumber } from './currentAccount.utils';
+import { createNewIdNumber } from './StudentAccount.utils';
 
 const insertIntoDB = async (
-  data: CurrentAccount,
+  data: StudentAccount,
   authUser: JwtPayload
-): Promise<CurrentAccount> => {
+): Promise<StudentAccount> => {
   const findUser = await prisma.user.findFirst({
     where: {
       id: authUser.userId,
@@ -21,7 +21,7 @@ const insertIntoDB = async (
     throw new ApiError(httpStatus.BAD_REQUEST, 'please login first');
   }
 
-  const findAccount = await prisma.currentAccount.findFirst({
+  const findAccount = await prisma.studentAccount.findFirst({
     where: {
       userId: authUser.userId,
     },
@@ -33,7 +33,7 @@ const insertIntoDB = async (
   const id = await createNewIdNumber(data?.accountType);
   data.accountId = id;
   console.log('user', data);
-  const result = await prisma.currentAccount.create({
+  const result = await prisma.studentAccount.create({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore
     data: {
@@ -52,8 +52,8 @@ const insertIntoDB = async (
   return result;
 };
 
-const getAllFromDB = async (): Promise<Partial<CurrentAccount>[]> => {
-  const result = await prisma.currentAccount.findMany({
+const getAllFromDB = async (): Promise<Partial<StudentAccount>[]> => {
+  const result = await prisma.studentAccount.findMany({
     include: {
       user: {
         select: {
@@ -64,7 +64,7 @@ const getAllFromDB = async (): Promise<Partial<CurrentAccount>[]> => {
           id: true,
         },
       },
-      CurrentAccountBalance: true,
+      StudentAccountBalance: true,
     },
   });
   return result;
@@ -72,8 +72,8 @@ const getAllFromDB = async (): Promise<Partial<CurrentAccount>[]> => {
 
 const getByIdFromDB = async (
   id: string
-): Promise<Partial<CurrentAccount | null>> => {
-  const result = await prisma.currentAccount.findUnique({
+): Promise<Partial<StudentAccount | null>> => {
+  const result = await prisma.studentAccount.findUnique({
     where: {
       id: id,
     },
@@ -83,9 +83,9 @@ const getByIdFromDB = async (
 
 const updateIntoDB = async (
   id: string,
-  payload: Partial<CurrentAccount>
-): Promise<Partial<CurrentAccount>> => {
-  const result = await prisma.currentAccount.update({
+  payload: Partial<StudentAccount>
+): Promise<Partial<StudentAccount>> => {
+  const result = await prisma.studentAccount.update({
     where: {
       id: id,
     },
@@ -95,7 +95,7 @@ const updateIntoDB = async (
 };
 
 const deleteFromDB = async (id: string) => {
-  const result = await prisma.currentAccount.delete({
+  const result = await prisma.studentAccount.delete({
     where: {
       id: id,
     },
@@ -103,7 +103,7 @@ const deleteFromDB = async (id: string) => {
   return result;
 };
 
-export const CurrentAccountService = {
+export const StudentAccountService = {
   insertIntoDB,
   getAllFromDB,
   getByIdFromDB,
