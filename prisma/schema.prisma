@@ -23,7 +23,7 @@ model BankProfile {
 
 model BankBalance {
   id       String @id @default(uuid())
-  currency String
+  currency String @unique
   balance  Float
 
   bankProfileId String
@@ -43,16 +43,16 @@ model User {
   card              Card[]
   currencyExchanges CurrencyExchange[]
   userTransactions  UserTransaction[]
-  currentAccount    CurrentAccount[]
 
-  PersonalLoan      PersonalLoan[]
-  CorporateLoan     CorporateLoan[]
-  EducationLoan     EducationLoan[]
+  PersonalLoan  PersonalLoan[]
+  CorporateLoan CorporateLoan[]
+  EducationLoan EducationLoan[]
 
-  savingAccount     SavingAccount[]
-  studentAccount    StudentAccount[]
-  merchentAccount   MerchentAccount[]
-
+  currentAccount  CurrentAccount?
+  savingAccount   SavingAccount?
+  studentAccount  StudentAccount?
+  merchentAccount MerchentAccount?
+  UserBalance     UserBalance[]
 
   @@map("users")
 }
@@ -65,8 +65,8 @@ enum UserRole {
 }
 
 model Accounts {
-  id           String        @unique @default(uuid())
-  accountId    String        @unique
+  id           String   @unique @default(uuid())
+  accountId    String   @unique
   contactNo    String
   profession   String
   age          Int
@@ -75,9 +75,8 @@ model Accounts {
   accountType  String
   citizenShip  String
   userId       String
-  user         User          @relation(fields: [userId], references: [id])
-  createdAt    DateTime      @default(now())
-  userBalances UserBalance[]
+  user         User     @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now())
 
   @@map("accounts")
 }
@@ -115,7 +114,7 @@ model CurrentAccount {
   nominyAddress      String
   nominyPhoto        String
   createdAt          DateTime    @default(now())
-  userId             String
+  userId             String      @unique
   user               User        @relation(fields: [userId], references: [id])
 
   CurrentAccountBalance CurrentAccountBalance[]
@@ -130,8 +129,6 @@ model CurrentAccountBalance {
   accountId      String
   currentAccount CurrentAccount @relation(fields: [accountId], references: [id])
 }
-
-// schema.prisma
 
 model SavingAccount {
   id                    String                 @id @unique @default(uuid())
@@ -162,7 +159,7 @@ model SavingAccount {
   nominyAddress         String
   nominyPhoto           String
   createdAt             DateTime               @default(now())
-  userId                String
+  userId                String                 @unique
   user                  User                   @relation(fields: [userId], references: [id])
   savingAccountBalances SavingAccountBalance[]
 }
@@ -209,7 +206,7 @@ model StudentAccount {
   nominyAddress          String
   nominyPhoto            String
   createdAt              DateTime                @default(now())
-  userId                 String
+  userId                 String                  @unique
   user                   User                    @relation(fields: [userId], references: [id])
   StudentAccountBalance  StudentAccountBalance[]
 }
@@ -235,7 +232,7 @@ model MerchentAccount {
   companyAddress         String
   companyPhoto           String
   createdAt              DateTime                 @default(now())
-  userId                 String
+  userId                 String                   @unique
   user                   User                     @relation(fields: [userId], references: [id])
   merchentAccountBalance MerchentAccountBalance[]
 }
@@ -249,11 +246,13 @@ model MerchentAccountBalance {
 }
 
 model UserBalance {
-  id           String   @id @unique @default(uuid())
-  currency     String
-  balance      Float
-  accountId    String
-  userAccounts Accounts @relation(fields: [accountId], references: [id])
+  id        String @id @unique @default(uuid())
+  currency  String
+  balance   Float
+  accountId String
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
 }
 
 model DebitCreditCard {

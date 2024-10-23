@@ -2,7 +2,7 @@ import prisma from '../../../shared/prisma';
 
 // Account ID
 export const findLastAccountId = async () => {
-  const lastAccount = await prisma.currentAccount.findMany({
+  const lastAccount = await prisma.savingAccount.findMany({
     orderBy: {
       createdAt: 'desc',
     },
